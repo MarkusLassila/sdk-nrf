@@ -56,10 +56,19 @@ CONFIG_SLM_AT_MAX_PARAM - AT command parameter count limit
 
 .. _CONFIG_SLM_NATIVE_TLS:
 
-CONFIG_SLM_NATIVE_TLS - Use Zephyr mbedTLS
-   This option enables using Zephyr's mbedTLS.
-   It requires additional configuration.
+CONFIG_SLM_NATIVE_TLS - Use Zephyr's Mbed TLS for TLS connections
+   This option is enabled by the Native TLS overlay.
    See :ref:`slm_native_tls` for more information.
+
+CONFIG_SLM_NATIVE_TLS_CREDENTIAL_BUFFER_SIZE - Buffer space reserved for loading credentials
+   Specifies the credential buffer size available for a single sec_tag when loading credentials for Mbed TLS.
+   The default value is 4096.
+
+CONFIG_SLM_NATIVE_TLS_CREDENTIAL_BUFFER_COUNT - Amount of buffers for loading credentials
+   Amount of buffers available for loading sec_tag credentials for Mbed TLS.
+   TLS Client needs the buffer only when connecting where as TLS server needs the buffer as long as it running.
+   Increase the value, if you need TLS client and server running simultaneously with different sec_tags.
+   The default value is 1.
 
 .. _CONFIG_SLM_EXTERNAL_XTAL:
 
@@ -294,29 +303,24 @@ See :ref:`app_build_system`: for more information on the |NCS| configuration sys
 Native TLS
 ----------
 
-By default, the secure socket (TLS/DTLS) is offloaded onto the modem.
-However, if you need customized TLS/DTLS features that are not supported by the modem firmware, you can use native TLS instead.
+By default, the secure socket (TLS) is offloaded onto the modem.
+If you need customized TLS features that are not supported by the modem firmware, you can use native TLS instead.
+Native TLS uses the Mbed TLS library in Zephyr to establish secure connectivity.
 Currently, the SLM application can be built to use native TLS for the following services:
 
 * Secure socket
-* TLS Proxy server
+* TLS Proxy client/server
 * HTTPS client
 
-If native TLS is enabled, you must use the ``AT#XCMNG`` command to store the credentials.
-
-.. note::
-
-   The modem needs to be in an offline state when storing the credentials.
-   The SLM application supports security tags ranging from ``0`` to ``214748364``.
+With native TLS, the credentials are stored in the Zephyr settings storage with the ``AT#XCMNG`` command.
 
 The configuration options that are required to enable the native TLS socket are defined in the :file:`overlay-native_tls.conf` file.
 
 .. note::
 
-   Native TLS sockets have the following limitations:
+   Native TLS services have the following limitations:
 
    * PSK, PSK identity, and PSK public key are currently not supported.
-   * The DTLS server is currently not supported.
    * TLS session resumption is currently not supported.
 
 .. include:: /libraries/modem/nrf_modem_lib/nrf_modem_lib_trace.rst

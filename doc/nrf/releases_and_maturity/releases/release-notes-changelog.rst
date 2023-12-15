@@ -206,6 +206,7 @@ Serial LTE modem
     * Set the ``PEER_VERIFY`` socket option.
       Set to ``TLS_PEER_VERIFY_REQUIRED`` by default.
     * Set the ``TLS_HOSTNAME`` socket option to ``NULL`` to disable the hostname verification.
+  * ``#XCMNG`` AT command, activated with :file:`overlay-native_tls.conf` overlay file, to use Zephyr settings storage for credential storing.
 
 * Removed Kconfig options ``CONFIG_SLM_CUSTOMIZED`` and ``CONFIG_SLM_SOCKET_RX_MAX``.
 

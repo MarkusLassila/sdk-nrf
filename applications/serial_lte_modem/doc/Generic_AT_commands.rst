@@ -405,51 +405,49 @@ The test command is not supported.
 Native TLS CMNG #XCMNG
 ======================
 
-The ``#XCMNG`` command manages the credentials to support :ref:`CONFIG_SLM_NATIVE_TLS <CONFIG_SLM_NATIVE_TLS>`.
-This command is similar to the modem ``%CMNG`` command.
+The ``#XCMNG`` command manages the credentials to support :ref:`CONFIG_SLM_NATIVE_TLS <CONFIG_SLM_NATIVE_TLS>` activated with :file:`overlay-native_tls.conf` configuration file.
+This command is similar to the modem ``%CMNG`` command, but it utilizes Zephyr setting storage instead of modem credential storage.
+
+.. note::
+
+   The Zephyr setting storage is accessible through the debug port of the nrf91 devices.
 
 Set command
 -----------
 
 The set command is used for credential storage management.
-The command writes, reads, deletes, and checks the existence of keys and certificates.
+The command writes and deletes credentials. It can also list ``<sec_tag>`` and ``<type>`` of existing credentials.
 
 Syntax
 ~~~~~~
 
-The following is the syntax when :ref:`CONFIG_SLM_NATIVE_TLS <CONFIG_SLM_NATIVE_TLS>` is selected:
 ::
 
-   #XCMNG=<opcode>[,<sec_tag>[,<type>[,<content>]]]
+   #XCMNG=<op>[,<sec_tag>[,<type>[,<content>]]]
 
-The ``<opcode>`` parameter is an integer.
-It accepts the following values:
+The ``<op>`` parameter can have the following integer values:
 
 * ``0`` - Write a credential.
-* ``1`` - List credentials (currently not supported).
-* ``2`` - Read a credential (currently not supported).
+* ``1`` - List credentials.
 * ``3`` - Delete a credential.
 
-The ``<sec_tag>`` parameter is an integer ranging between ``0`` and ``2147483647``.
-It is mandatory for *write*, *read*, and *delete* operations.
-It is optional for *list* operations.
+The ``<sec_tag>`` parameter can have an integer value ranging between ``0`` and ``2147483647``.
+It is mandatory for *write* and *delete* operations.
 
-The ``<type>`` parameter is an integer.
-It accepts the following values:
+The ``<type>`` parameter can have the following integer values:
 
-* ``0`` - Root CA certificate (ASCII text)
-* ``1`` - Certificate (ASCII text)
-* ``2`` - Private key (ASCII text)
+* ``0`` - Root CA certificate (PEM format)
+* ``1`` - Certificate (PEM format)
+* ``2`` - Private key (PEM format)
+* ``3`` - Pre-shared Key (PSK) (ASCII text)
+* ``4`` - PSK identity (ASCII text)
+
+It is mandatory for *write*, and *delete* operations.
 
 The ``<content>`` parameter is a string.
-It is mandatory if ``<opcode>`` is ``0`` (write a credential).
-It is the content of a Privacy Enhanced Mail (PEM) file enclosed in double quotes (X.509 PEM entities).
-An empty string is not allowed.
-
-Response syntax
-~~~~~~~~~~~~~~~
-
-There is no response.
+For ``<type>`` ``0``, ``1`` and ``2``, it is the credential in Privacy Enhanced Mail (PEM) format.
+For ``<type>`` ``3`` and  ``4``, it is the credential in ASCII text.
+It is mandatory for *write* operation.
 
 Example
 ~~~~~~~
@@ -473,6 +471,26 @@ Example
    OVqOMNAlzR6v4YHlI9InxU01quIRtQIhAOTITnLNuA0r0571SSBKZyrNGzxJxcPO
    FDkGjew9OVov
    -----END CERTIFICATE-----"
+
+   OK
+
+   AT#XCMNG=0,11,3,"PSK"
+
+   OK
+
+   AT#XCMNG=0,11,4,"Identity"
+
+   OK
+
+   AT#XCMNG=1
+
+   #XCMNG: 11,4
+   #XCMNG: 11,3
+   #XCMNG: 10,0
+
+   OK
+
+   AT#XCMNG=3,10,0
 
    OK
 

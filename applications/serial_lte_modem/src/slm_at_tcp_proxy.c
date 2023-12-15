@@ -8,10 +8,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <zephyr/net/socket.h>
+#include <zephyr/net/tls_credentials.h>
 #include "slm_util.h"
-#include "slm_native_tls.h"
 #include "slm_at_host.h"
 #include "slm_at_tcp_proxy.h"
+#if defined(CONFIG_SLM_NATIVE_TLS)
+#include "slm_native_tls.h"
+#endif
 
 LOG_MODULE_REGISTER(slm_tcp, CONFIG_SLM_LOG_LEVEL);
 
@@ -62,10 +65,10 @@ static int do_tcp_server_start(uint16_t port)
 
 #if defined(CONFIG_SLM_NATIVE_TLS)
 	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		ret = slm_tls_loadcrdl(proxy.sec_tag);
+		ret = slm_native_tls_load_credentials(proxy.sec_tag);
 		if (ret < 0) {
-			LOG_ERR("Fail to load credential: %d", ret);
-			return -EAGAIN;
+			LOG_ERR("Failed to load sec tag: %d (%d)", proxy.sec_tag, ret);
+			return ret;
 		}
 	}
 #else
@@ -201,12 +204,6 @@ static int do_tcp_server_start(uint16_t port)
 	return 0;
 
 exit_svr:
-#if defined(CONFIG_SLM_NATIVE_TLS)
-	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		(void)slm_tls_unloadcrdl(proxy.sec_tag);
-		proxy.sec_tag = INVALID_SEC_TAG;
-	}
-#endif
 	if (proxy.sock != INVALID_SOCKET) {
 		close(proxy.sock);
 		proxy.sock = INVALID_SOCKET;
@@ -223,12 +220,6 @@ static int do_tcp_server_stop(void)
 	if (proxy.sock == INVALID_SOCKET) {
 		return 0;
 	}
-#if defined(CONFIG_SLM_NATIVE_TLS)
-	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		(void)slm_tls_unloadcrdl(proxy.sec_tag);
-		proxy.sec_tag = INVALID_SEC_TAG;
-	}
-#endif
 	server_stop_pending = true;
 	if (proxy.sock_peer != INVALID_SOCKET) {
 		(void)close(proxy.sock_peer);
@@ -274,12 +265,13 @@ static int do_tcp_client_connect(const char *url, uint16_t port)
 	if (proxy.sec_tag != INVALID_SEC_TAG) {
 		sec_tag_t sec_tag_list[1] = { proxy.sec_tag };
 #if defined(CONFIG_SLM_NATIVE_TLS)
-		ret = slm_tls_loadcrdl(proxy.sec_tag);
+		ret = slm_native_tls_load_credentials(proxy.sec_tag);
 		if (ret < 0) {
-			LOG_ERR("Fail to load credential: %d", ret);
+			LOG_ERR("Failed to load sec tag: %d (%d)", proxy.sec_tag, ret);
 			goto exit_cli;
 		}
 #endif
+		LOG_INF("setsockopt: TLS_SEC_TAG_LIST");
 		ret = setsockopt(proxy.sock, SOL_TLS, TLS_SEC_TAG_LIST, sec_tag_list,
 				 sizeof(sec_tag_t));
 		if (ret) {
@@ -287,6 +279,7 @@ static int do_tcp_client_connect(const char *url, uint16_t port)
 			ret = -errno;
 			goto exit_cli;
 		}
+		LOG_INF("setsockopt: TLS_SEC_TAG_LIST");
 		ret = setsockopt(proxy.sock, SOL_TLS, TLS_PEER_VERIFY, &proxy.peer_verify,
 				 sizeof(proxy.peer_verify));
 		if (ret) {
@@ -333,12 +326,6 @@ static int do_tcp_client_connect(const char *url, uint16_t port)
 	return 0;
 
 exit_cli:
-#if defined(CONFIG_SLM_NATIVE_TLS)
-	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		(void)slm_tls_unloadcrdl(proxy.sec_tag);
-		proxy.sec_tag = INVALID_SEC_TAG;
-	}
-#endif
 	close(proxy.sock);
 	proxy.sock = INVALID_SOCKET;
 	rsp_send("\r\n#XTCPCLI: %d,\"not connected\"\r\n", ret);
@@ -353,12 +340,6 @@ static int do_tcp_client_disconnect(void)
 	if (proxy.sock == INVALID_SOCKET) {
 		return 0;
 	}
-#if defined(CONFIG_SLM_NATIVE_TLS)
-	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		(void)slm_tls_unloadcrdl(proxy.sec_tag);
-		proxy.sec_tag = INVALID_SEC_TAG;
-	}
-#endif
 	ret = close(proxy.sock);
 	if (ret < 0) {
 		LOG_WRN("close() failed: %d", -errno);
@@ -591,12 +572,6 @@ client_events:
 		}
 	}
 
-#if defined(CONFIG_SLM_NATIVE_TLS)
-	if (proxy.sec_tag != INVALID_SEC_TAG) {
-		(void)slm_tls_unloadcrdl(proxy.sec_tag);
-		proxy.sec_tag = INVALID_SEC_TAG;
-	}
-#endif
 	tcpsvr_terminate_connection(ret);
 	if (proxy.sock != INVALID_SOCKET) {
 		(void)close(proxy.sock);

@@ -222,6 +222,7 @@ Syntax
 * The ``<sec_tag>`` parameter is an integer.
   It indicates to the modem the credential of the security tag to be used for establishing a secure connection.
   It is associated with a credential, that is, a certificate or PSK. The credential should be stored on the modem side beforehand.
+  Note: ``<sec_tag>`` can only be used with ``<role>`` ``1`` - Server, when ``<type>`` is ``SOCK_STREAM`` and the overlay-native_tls.conf configuration file is used.
 
 * The ``<peer_verify>`` parameter can accept one of the following values:
 
