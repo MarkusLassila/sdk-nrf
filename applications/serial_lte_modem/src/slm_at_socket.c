@@ -166,17 +166,14 @@ static int do_socket_open(void)
 static int do_secure_socket_open(int peer_verify)
 {
 	int ret = 0;
-	int proto = IPPROTO_TLS_1_2;
+	int proto = sock.type == SOCK_STREAM ? IPPROTO_TLS_1_2 : IPPROTO_DTLS_1_2;
 
-	if (sock.type == SOCK_STREAM) {
+	if (sock.type == SOCK_STREAM || sock.type == SOCK_DGRAM) {
 #if defined(CONFIG_SLM_NATIVE_TLS)
-		ret = socket(sock.family, SOCK_STREAM | SOCK_NATIVE_TLS, IPPROTO_TLS_1_2);
+		ret = socket(sock.family, sock.type | SOCK_NATIVE_TLS, proto);
 #else
-		ret = socket(sock.family, SOCK_STREAM, IPPROTO_TLS_1_2);
+		ret = socket(sock.family, sock.type, proto);
 #endif
-	} else if (sock.type == SOCK_DGRAM) {
-		ret = socket(sock.family, SOCK_DGRAM, IPPROTO_DTLS_1_2);
-		proto = IPPROTO_DTLS_1_2;
 	} else {
 		LOG_ERR("socket type %d not supported", sock.type);
 		return -ENOTSUP;
@@ -195,12 +192,10 @@ static int do_secure_socket_open(int peer_verify)
 
 	sec_tag_t sec_tag_list[1] = { sock.sec_tag };
 #if defined(CONFIG_SLM_NATIVE_TLS)
-	if (sock.type == SOCK_STREAM) {
-		ret = slm_native_tls_load_credentials(sock.sec_tag);
-		if (ret < 0) {
-			LOG_ERR("Failed to load sec tag: %d (%d)", sock.sec_tag, ret);
-			goto error_exit;
-		}
+	ret = slm_native_tls_load_credentials(sock.sec_tag);
+	if (ret < 0) {
+		LOG_ERR("Failed to load sec tag: %d (%d)", sock.sec_tag, ret);
+		goto error_exit;
 	}
 #endif
 	ret = setsockopt(sock.fd, SOL_TLS, TLS_SEC_TAG_LIST, sec_tag_list, sizeof(sec_tag_t));
