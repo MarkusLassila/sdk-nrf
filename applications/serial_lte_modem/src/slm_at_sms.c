@@ -7,6 +7,7 @@
 #include <zephyr/kernel.h>
 #include <stdio.h>
 #include <string.h>
+#include <modem/at_cmd_custom.h>
 #include <modem/sms.h>
 #include "slm_util.h"
 #include "slm_at_host.h"
@@ -171,16 +172,19 @@ static int do_sms_send(const char *number, const char *message)
 	return err;
 }
 
-
-/* Handles AT#XSMS commands. */
-int handle_at_sms(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xsms, "AT#XSMS", handle_at_sms);
+static int handle_at_sms(char *buf, size_t len, char *at_cmd)
 {
 	int err = -EINVAL;
 	uint16_t op;
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(&slm_at_param_list, 1, &op);
+		err = at_params_unsigned_short_get(list, 1, &op);
 		if (err) {
 			return err;
 		}
@@ -194,12 +198,12 @@ int handle_at_sms(enum at_cmd_type cmd_type)
 			int size;
 
 			size = SMS_MAX_ADDRESS_LEN_CHARS + 1;
-			err = util_string_get(&slm_at_param_list, 2, number, &size);
+			err = util_string_get(list, 2, number, &size);
 			if (err) {
 				return err;
 			}
 			size = MAX_CONCATENATED_MESSAGE * SMS_MAX_PAYLOAD_LEN_CHARS;
-			err = util_string_get(&slm_at_param_list, 3, message, &size);
+			err = util_string_get(list, 3, message, &size);
 			if (err) {
 				return err;
 			}

@@ -14,6 +14,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
+#include <modem/at_cmd_custom.h>
 #include <zephyr/drivers/uart.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
@@ -44,7 +45,7 @@ static int datamode_handler_result;
 uint16_t slm_datamode_time_limit; /* Send trigger by time in data mode */
 K_MUTEX_DEFINE(mutex_mode); /* Protects the operation mode variables. */
 
-struct at_param_list slm_at_param_list;
+static struct at_param_list slm_at_param_list;
 uint8_t slm_at_buf[SLM_AT_MAX_CMD_LEN + 1];
 uint8_t slm_data_buf[SLM_MAX_MESSAGE_SIZE];
 
@@ -429,19 +430,6 @@ static void format_final_result(char *buf, size_t buf_len, size_t buf_max_len)
 		}
 	}
 }
-
-static size_t cmd_name_toupper(char *cmd, size_t cmd_len)
-{
-	size_t i;
-
-	/* Set/test command names are delimited by '=', read by '?'. */
-	for (i = 0; i != cmd_len && cmd[i] != '=' && cmd[i] != '?'; ++i) {
-
-		cmd[i] = toupper(cmd[i]);
-	}
-	return i;
-}
-
 static void restore_at_backend(void)
 {
 	const int err = at_backend.start();
@@ -551,23 +539,11 @@ static void cmd_send(uint8_t *buf, size_t cmd_length, size_t buf_size)
 		return;
 	}
 
-	const size_t cmd_name_len = cmd_name_toupper(at_cmd, cmd_length);
-
-	err = slm_at_parse(at_cmd, cmd_name_len);
-	if (err == SILENT_AT_COMMAND_RET) {
-		return;
-	} else if (err == 0) {
-		rsp_send_ok();
-		return;
-	} else if (err != UNKNOWN_AT_COMMAND_RET) {
-		LOG_ERR("AT command error: %d (%s)", err, strerror(-err));
-		rsp_send_error();
-		return;
-	}
-
 	/* Send to modem, reserve space for CRLF in response buffer */
 	err = nrf_modem_at_cmd(buf + strlen(CRLF_STR), buf_size - strlen(CRLF_STR), "%s", at_cmd);
-	if (err < 0) {
+	if (err == -SILENT_AT_COMMAND_RET) {
+		return;
+	} else if (err < 0) {
 		LOG_ERR("AT command failed: %d", err);
 		rsp_send_error();
 		return;
@@ -870,6 +846,29 @@ bool verify_datamode_control(uint16_t time_limit, uint16_t *min_time_limit)
 	}
 
 	return true;
+}
+
+struct at_param_list *slm_get_at_param_list(const char *at_cmd)
+{
+	int err;
+
+	at_params_list_clear(&slm_at_param_list);
+	err = at_parser_params_from_str(at_cmd, NULL, &slm_at_param_list);
+	if (err) {
+		LOG_ERR("AT command parsing failed: %d", err);
+		at_params_list_clear(&slm_at_param_list);
+	}
+
+	return &slm_at_param_list;
+}
+
+void set_default_at_response(void *buf, size_t size)
+{
+	const int err = at_cmd_custom_respond(buf, size, "OK\r\n");
+
+	if (err) {
+		LOG_ERR("Set default response failed: %d", err);
+	}
 }
 
 int slm_at_host_init(void)

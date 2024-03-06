@@ -8,6 +8,7 @@
 #include <modem/nrf_modem_lib.h>
 #include <nrf_modem_delta_dfu.h>
 #include <zephyr/kernel.h>
+#include <modem/at_cmd_custom.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/logging/log_ctrl.h>
 #include <zephyr/net/tls_credentials.h>
@@ -292,18 +293,22 @@ static void fota_dl_handler(const struct fota_download_evt *evt)
 	}
 }
 
-/* Handles AT#XFOTA commands. */
-int handle_at_fota(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xfota, "AT#XFOTA", handle_at_fota);
+static int handle_at_fota(char *buf, size_t len, char *at_cmd)
 {
 	int err = -EINVAL;
 	uint16_t op;
 #if FOTA_FUTURE_FEATURE
 	static bool paused;
 #endif
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(&slm_at_param_list, 1, &op);
+		err = at_params_unsigned_short_get(list, 1, &op);
 		if (err < 0) {
 			return err;
 		}
@@ -322,12 +327,12 @@ int handle_at_fota(enum at_cmd_type cmd_type)
 			sec_tag_t sec_tag = INVALID_SEC_TAG;
 			enum dfu_target_image_type type;
 
-			err = util_string_get(&slm_at_param_list, 2, uri, &size);
+			err = util_string_get(list, 2, uri, &size);
 			if (err) {
 				return err;
 			}
-			if (at_params_valid_count_get(&slm_at_param_list) > 3) {
-				at_params_unsigned_int_get(&slm_at_param_list, 3, &sec_tag);
+			if (at_params_valid_count_get(list) > 3) {
+				at_params_unsigned_int_get(list, 3, &sec_tag);
 			}
 			if (op == SLM_FOTA_START_APP) {
 				type = DFU_TARGET_IMAGE_TYPE_MCUBOOT;
@@ -356,8 +361,8 @@ int handle_at_fota(enum at_cmd_type cmd_type)
 			else {
 				type = DFU_TARGET_IMAGE_TYPE_MODEM_DELTA;
 			}
-			if (at_params_valid_count_get(&slm_at_param_list) > 4) {
-				at_params_unsigned_short_get(&slm_at_param_list, 4, &pdn_id);
+			if (at_params_valid_count_get(list) > 4) {
+				at_params_unsigned_short_get(list, 4, &pdn_id);
 				err = do_fota_start(op, uri, sec_tag, pdn_id, type);
 			} else {
 				err = do_fota_start(op, uri, sec_tag, 0, type);

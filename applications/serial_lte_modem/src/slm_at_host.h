@@ -26,7 +26,6 @@
 #define SLM_DATAMODE_FLAGS_NONE	0
 #define SLM_DATAMODE_FLAGS_MORE_DATA (1 << 0)
 
-extern struct at_param_list slm_at_param_list; /* For AT parser. */
 extern uint8_t slm_data_buf[SLM_MAX_MESSAGE_SIZE];  /* For socket data. */
 extern uint8_t slm_at_buf[SLM_AT_MAX_CMD_LEN + 1]; /* AT command buffer. */
 
@@ -92,11 +91,6 @@ int slm_at_host_power_on(void);
 void slm_at_host_uninit(void);
 
 /**
- * @brief Runs the SLM-proprietary @c at_cmd if it is one.
- */
-int slm_at_parse(const char *cmd_str, size_t cmd_name_len);
-
-/**
  * @brief Send AT command response
  *
  * @param fmt Response message format string
@@ -151,6 +145,27 @@ bool in_datamode(void);
  *         false If not in data mode.
  */
 bool exit_datamode_handler(int result);
+
+/**
+ * @brief Get parameter list from AT command.
+ *
+ * @param at_cmd AT command.
+ *
+ * @retval AT command parameter list, if AT command is valid.
+ *         Empty list, if not valid.
+ */
+struct at_param_list *slm_get_at_param_list(const char *at_cmd);
+
+/**
+ * @brief Set default AT command response (OK).
+ *
+ * AT command will be overwritten as the response is written in the same buffer.
+ *
+ * @param buf Response buffer.
+ * @param size Response buffer size.
+ *
+ */
+void set_default_at_response(void *buf, size_t size);
 /** @} */
 
 #endif /* SLM_AT_HOST_ */

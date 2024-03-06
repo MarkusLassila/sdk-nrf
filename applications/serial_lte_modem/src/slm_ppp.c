@@ -464,8 +464,8 @@ int slm_ppp_init(void)
 	return 0;
 }
 
-/* Handles AT#XPPP commands. */
-int handle_at_ppp(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xppp, "AT#XPPP", handle_at_ppp);
+static int handle_at_ppp(char *buf, size_t len, char *at_cmd)
 {
 	int ret;
 	unsigned int op;
@@ -474,17 +474,21 @@ int handle_at_ppp(enum at_cmd_type cmd_type)
 		OP_START,
 		OP_COUNT
 	};
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	if (cmd_type == AT_CMD_TYPE_READ_COMMAND) {
 		rsp_send("\r\n#XPPP: %u,%u\r\n", slm_ppp_is_running(), ppp_peer_connected);
 		return 0;
 	}
 	if (cmd_type != AT_CMD_TYPE_SET_COMMAND
-	 || at_params_valid_count_get(&slm_at_param_list) != 2) {
+	 || at_params_valid_count_get(list) != 2) {
 		return -EINVAL;
 	}
 
-	ret = at_params_unsigned_int_get(&slm_at_param_list, 1, &op);
+	ret = at_params_unsigned_int_get(list, 1, &op);
 	if (ret) {
 		return ret;
 	} else if (op >= OP_COUNT) {
@@ -501,7 +505,7 @@ int handle_at_ppp(enum at_cmd_type cmd_type)
 		/* Send "OK" first in case stopping PPP results in the CMUX AT channel switching. */
 		rsp_send_ok();
 		k_work_submit_to_queue(&slm_work_q, &ppp_stop_work);
-		ret = SILENT_AT_COMMAND_RET;
+		ret = -SILENT_AT_COMMAND_RET;
 	}
 	return ret;
 }

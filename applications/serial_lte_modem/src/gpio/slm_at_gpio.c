@@ -7,6 +7,7 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/kernel.h>
 #include <stdio.h>
+#include <modem/at_cmd_custom.h>
 #include <zephyr/drivers/gpio.h>
 #include "slm_util.h"
 #include "slm_at_gpio.h"
@@ -192,20 +193,24 @@ static int do_gpio_pin_operate(uint16_t op, gpio_pin_t pin, uint16_t value)
 	return 0;
 }
 
-/* Handles AT#XGPIOCFG commands. */
-int handle_at_gpio_configure(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xgpiocfg, "AT#XGPIOCFG", handle_at_gpio_configure);
+static int handle_at_gpio_configure(char *buf, size_t len, char *at_cmd)
 {
 	int err = -EINVAL;
 	uint16_t pin = 0xff, op = 0xff;
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(&slm_at_param_list, 1, &op);
+		err = at_params_unsigned_short_get(list, 1, &op);
 		if (err < 0) {
 			LOG_ERR("Fail to get op: %d", err);
 			return err;
 		}
-		err = at_params_unsigned_short_get(&slm_at_param_list, 2, &pin);
+		err = at_params_unsigned_short_get(list, 2, &pin);
 		if (err < 0) {
 			LOG_ERR("Fail to get pin: %d", err);
 			return err;
@@ -223,15 +228,20 @@ int handle_at_gpio_configure(enum at_cmd_type cmd_type)
 	return err;
 }
 
-/* Handles AT#XGPIO command. */
-int handle_at_gpio_operate(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xgpio_set, "AT#XGPIO=", handle_at_gpio_operate);
+AT_CMD_CUSTOM(xgpio_read, "AT#XGPIO?", handle_at_gpio_operate);
+static int handle_at_gpio_operate(char *buf, size_t len, char *at_cmd)
 {
 	int err = -EINVAL;
 	uint16_t pin = 0xff, op = 0xff, value = 0xff;
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(&slm_at_param_list, 1, &op);
+		err = at_params_unsigned_short_get(list, 1, &op);
 		if (err < 0) {
 			LOG_ERR("Fail to get OP code: %d", err);
 			return err;
@@ -240,7 +250,7 @@ int handle_at_gpio_operate(enum at_cmd_type cmd_type)
 			LOG_ERR("GPIO OP code is out of range: %d", op);
 			return -EINVAL;
 		}
-		err = at_params_unsigned_short_get(&slm_at_param_list, 2, &pin);
+		err = at_params_unsigned_short_get(list, 2, &pin);
 		if (err < 0) {
 			LOG_ERR("Fail to get pin: %d", err);
 			return err;
@@ -250,7 +260,7 @@ int handle_at_gpio_operate(enum at_cmd_type cmd_type)
 			return -EINVAL;
 		}
 		if (op == SLM_GPIO_OP_WRITE) {
-			err = at_params_unsigned_short_get(&slm_at_param_list, 3, &value);
+			err = at_params_unsigned_short_get(list, 3, &value);
 			if (err < 0) {
 				LOG_ERR("Fail to get value: %d", err);
 				return err;

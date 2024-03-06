@@ -7,6 +7,7 @@
 #include <zephyr/kernel.h>
 #include <stdio.h>
 #include <string.h>
+#include <modem/at_cmd_custom.h>
 #include <zephyr/net/net_ip.h>
 #include <zephyr/net/tftp.h>
 #include "slm_util.h"
@@ -130,8 +131,8 @@ static int do_tftp_put(int family, const char *server, uint16_t port, const char
 	return ret;
 }
 
-/* Handles AT#XTFTP commands. */
-int handle_at_tftp(enum at_cmd_type cmd_type)
+AT_CMD_CUSTOM(xtftp, "AT#XTFTP", handle_at_tftp);
+static int handle_at_tftp(char *buf, size_t len, char *at_cmd)
 {
 	int err = -EINVAL;
 	uint16_t op;
@@ -140,32 +141,36 @@ int handle_at_tftp(enum at_cmd_type cmd_type)
 	char filepath[SLM_MAX_FILEPATH];
 	char mode[16];   /** "netascii", "octet", "mail" */
 	int size;
-	int param_count = at_params_valid_count_get(&slm_at_param_list);
+	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
+	int param_count = at_params_valid_count_get(list);
+	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
+
+	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(&slm_at_param_list, 1, &op);
+		err = at_params_unsigned_short_get(list, 1, &op);
 		if (err) {
 			return err;
 		}
 
 		size = sizeof(url);
-		err = util_string_get(&slm_at_param_list, 2, url, &size);
+		err = util_string_get(list, 2, url, &size);
 		if (err) {
 			return err;
 		}
-		err = at_params_unsigned_short_get(&slm_at_param_list, 3, &port);
+		err = at_params_unsigned_short_get(list, 3, &port);
 		if (err) {
 			return err;
 		}
 		size = sizeof(filepath);
-		err = util_string_get(&slm_at_param_list, 4, filepath, &size);
+		err = util_string_get(list, 4, filepath, &size);
 		if (err) {
 			return err;
 		}
 		if (param_count > 5) {
 			size = sizeof(mode);
-			err = util_string_get(&slm_at_param_list, 5, mode, &size);
+			err = util_string_get(list, 5, mode, &size);
 			if (err) {
 				return err;
 			}
@@ -186,7 +191,7 @@ int handle_at_tftp(enum at_cmd_type cmd_type)
 			uint8_t data[SLM_MAX_PAYLOAD_SIZE + 1] = {0};
 
 			size = sizeof(data);
-			err = util_string_get(&slm_at_param_list, 6, data, &size);
+			err = util_string_get(list, 6, data, &size);
 			if (err) {
 				return err;
 			}
