@@ -135,7 +135,9 @@ Asset Tracker v2
 Serial LTE modem
 ----------------
 
-|no_changes_yet_note|
+* Updated:
+
+  * AT command parsing to utilize the :ref:`at_cmd_custom_readme` library.
 
 nRF5340 Audio
 -------------
