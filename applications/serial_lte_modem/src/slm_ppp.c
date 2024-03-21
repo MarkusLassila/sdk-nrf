@@ -464,8 +464,9 @@ int slm_ppp_init(void)
 	return 0;
 }
 
-AT_CMD_CUSTOM(xppp, "AT#XPPP", handle_at_ppp);
-static int handle_at_ppp(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xppp, "AT#XPPP", handle_at_ppp);
+static int handle_at_ppp(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+			 uint32_t param_count)
 {
 	int ret;
 	unsigned int op;
@@ -474,21 +475,16 @@ static int handle_at_ppp(char *buf, size_t len, char *at_cmd)
 		OP_START,
 		OP_COUNT
 	};
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	if (cmd_type == AT_CMD_TYPE_READ_COMMAND) {
 		rsp_send("\r\n#XPPP: %u,%u\r\n", slm_ppp_is_running(), ppp_peer_connected);
 		return 0;
 	}
-	if (cmd_type != AT_CMD_TYPE_SET_COMMAND
-	 || at_params_valid_count_get(list) != 2) {
+	if (cmd_type != AT_CMD_TYPE_SET_COMMAND || param_count != 2) {
 		return -EINVAL;
 	}
 
-	ret = at_params_unsigned_int_get(list, 1, &op);
+	ret = at_params_unsigned_int_get(param_list, 1, &op);
 	if (ret) {
 		return ret;
 	} else if (op >= OP_COUNT) {

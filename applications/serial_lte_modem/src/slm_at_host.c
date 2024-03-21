@@ -848,27 +848,42 @@ bool verify_datamode_control(uint16_t time_limit, uint16_t *min_time_limit)
 	return true;
 }
 
-struct at_param_list *slm_get_at_param_list(const char *at_cmd)
+int slm_get_at_param_list(const char *at_cmd, struct at_param_list *list)
 {
 	int err;
 
-	at_params_list_clear(&slm_at_param_list);
-	err = at_parser_params_from_str(at_cmd, NULL, &slm_at_param_list);
+	list = &slm_at_param_list;
+
+	at_params_list_clear(list);
+	err = at_parser_params_from_str(at_cmd, NULL, list);
 	if (err) {
-		LOG_ERR("AT command parsing failed: %d", err);
+		LOG_ERR("AT command parse failed: %d", err);
 		at_params_list_clear(&slm_at_param_list);
 	}
 
-	return &slm_at_param_list;
+	return err;
 }
 
-void set_default_at_response(void *buf, size_t size)
+int slm_at_cb_wrapper(char *buf, size_t len, char *at_cmd, slm_at_callback *cb)
 {
-	const int err = at_cmd_custom_respond(buf, size, "OK\r\n");
+	int err;
+	struct at_param_list *list = NULL;
 
+	assert(cb);
+
+	err = slm_get_at_param_list(at_cmd, list);
 	if (err) {
-		LOG_ERR("Set default response failed: %d", err);
+		return err;
 	}
+	err = cb(at_parser_cmd_type_get(at_cmd), list, at_params_valid_count_get(list));
+	if (!err) {
+		err = at_cmd_custom_respond(buf, len, "OK\r\n");
+		if (err) {
+			LOG_ERR("Failed to set OK response: %d", err);
+		}
+	}
+
+	return err;
 }
 
 int slm_at_host_init(void)

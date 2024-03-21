@@ -7,7 +7,6 @@
 #include <zephyr/kernel.h>
 #include <stdio.h>
 #include <string.h>
-#include <modem/at_cmd_custom.h>
 #include <zephyr/net/socket.h>
 #include <zephyr/net/tls_credentials.h>
 #include "slm_util.h"
@@ -632,21 +631,17 @@ static void tcpcli_thread_func(void *p1, void *p2, void *p3)
 	LOG_INF("TCP client thread terminated");
 }
 
-AT_CMD_CUSTOM(xtcpsvr, "AT#XTCPSVR", handle_at_tcp_server);
-static int handle_at_tcp_server(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xtcpsvr, "AT#XTCPSVR", handle_at_tcp_server);
+static int handle_at_tcp_server(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+				uint32_t param_count)
 {
 	int err = -EINVAL;
 	uint16_t op;
 	uint16_t port;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	int param_count = at_params_valid_count_get(list);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(list, 1, &op);
+		err = at_params_unsigned_short_get(param_list, 1, &op);
 		if (err) {
 			return err;
 		}
@@ -655,13 +650,13 @@ static int handle_at_tcp_server(char *buf, size_t len, char *at_cmd)
 				LOG_ERR("Server is running.");
 				return -EINVAL;
 			}
-			err = at_params_unsigned_short_get(list, 2, &port);
+			err = at_params_unsigned_short_get(param_list, 2, &port);
 			if (err) {
 				return err;
 			}
 			proxy.sec_tag = INVALID_SEC_TAG;
 			if (param_count > 3) {
-				err = at_params_int_get(list, 3, &proxy.sec_tag);
+				err = at_params_int_get(param_list, 3, &proxy.sec_tag);
 				if (err) {
 					return err;
 				}
@@ -691,20 +686,16 @@ static int handle_at_tcp_server(char *buf, size_t len, char *at_cmd)
 	return err;
 }
 
-AT_CMD_CUSTOM(xtcpcli, "AT#XTCPCLI", handle_at_tcp_client);
-static int handle_at_tcp_client(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xtcpcli, "AT#XTCPCLI", handle_at_tcp_client);
+static int handle_at_tcp_client(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+				uint32_t param_count)
 {
 	int err = -EINVAL;
 	uint16_t op;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	int param_count = at_params_valid_count_get(list);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(list, 1, &op);
+		err = at_params_unsigned_short_get(param_list, 1, &op);
 		if (err) {
 			return err;
 		}
@@ -717,22 +708,22 @@ static int handle_at_tcp_client(char *buf, size_t len, char *at_cmd)
 				LOG_ERR("Client is connected.");
 				return -EINVAL;
 			}
-			err = util_string_get(list, 2, url, &size);
+			err = util_string_get(param_list, 2, url, &size);
 			if (err) {
 				return err;
 			}
-			if (at_params_unsigned_short_get(list, 3, &port)) {
+			if (at_params_unsigned_short_get(param_list, 3, &port)) {
 				return -EINVAL;
 			}
 			proxy.sec_tag = INVALID_SEC_TAG;
 			if (param_count > 4) {
-				if (at_params_int_get(list, 4, &proxy.sec_tag)) {
+				if (at_params_int_get(param_list, 4, &proxy.sec_tag)) {
 					return -EINVAL;
 				}
 			}
 			proxy.peer_verify = TLS_PEER_VERIFY_REQUIRED;
 			if (param_count > 5) {
-				if (at_params_int_get(list, 5, &proxy.peer_verify) ||
+				if (at_params_int_get(param_list, 5, &proxy.peer_verify) ||
 				    (proxy.peer_verify != TLS_PEER_VERIFY_NONE &&
 				     proxy.peer_verify != TLS_PEER_VERIFY_OPTIONAL &&
 				     proxy.peer_verify != TLS_PEER_VERIFY_REQUIRED)) {
@@ -743,7 +734,7 @@ static int handle_at_tcp_client(char *buf, size_t len, char *at_cmd)
 			if (param_count > 6) {
 				uint16_t hostname_verify;
 
-				if (at_params_unsigned_short_get(list, 6, &hostname_verify) ||
+				if (at_params_unsigned_short_get(param_list, 6, &hostname_verify) ||
 				    (hostname_verify != 0 && hostname_verify != 1)) {
 					return -EINVAL;
 				}
@@ -775,22 +766,19 @@ static int handle_at_tcp_client(char *buf, size_t len, char *at_cmd)
 	return err;
 }
 
-AT_CMD_CUSTOM(xtcpsend, "AT#XTCPSEND", handle_at_tcp_send);
-static int handle_at_tcp_send(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xtcpsend, "AT#XTCPSEND", handle_at_tcp_send);
+static int handle_at_tcp_send(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+			      uint32_t)
 {
 	int err = -EINVAL;
 	char data[SLM_MAX_PAYLOAD_SIZE + 1] = {0};
 	int size;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		if (at_params_valid_count_get(list) > 1) {
+		if (at_params_valid_count_get(param_list) > 1) {
 			size = sizeof(data);
-			err = util_string_get(list, 1, data, &size);
+			err = util_string_get(param_list, 1, data, &size);
 			if (err) {
 				return err;
 			}
@@ -807,22 +795,19 @@ static int handle_at_tcp_send(char *buf, size_t len, char *at_cmd)
 	return err;
 }
 
-AT_CMD_CUSTOM(xtcphangup, "AT#XTCPHANGUP", handle_at_tcp_hangup);
-static int handle_at_tcp_hangup(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xtcphangup, "AT#XTCPHANGUP", handle_at_tcp_hangup);
+static int handle_at_tcp_hangup(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+				uint32_t)
 {
 	int err = -EINVAL;
 	int handle;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
 		if (proxy.role != TCP_ROLE_SERVER || proxy.sock_peer == INVALID_SOCKET) {
 			return -EINVAL;
 		}
-		err = at_params_int_get(list, 1, &handle);
+		err = at_params_int_get(param_list, 1, &handle);
 		if (err) {
 			return err;
 		}

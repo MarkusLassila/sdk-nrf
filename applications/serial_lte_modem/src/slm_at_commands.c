@@ -104,13 +104,10 @@ int slm_power_off_modem(void)
 	return slm_util_at_printf("AT+CFUN=0");
 }
 
-AT_CMD_CUSTOM(xslmver, "AT#XSLMVER", handle_at_slmver);
-static int handle_at_slmver(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xslmver, "AT#XSLMVER", handle_at_slmver);
+static int handle_at_slmver(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
 	int ret = -EINVAL;
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	if (cmd_type == AT_CMD_TYPE_SET_COMMAND) {
 		char *libmodem = nrf_modem_build_version();
@@ -144,17 +141,14 @@ static void go_sleep_wk(struct k_work *)
 	}
 }
 
-AT_CMD_CUSTOM(xsleep, "AT#XSLEEP", handle_at_sleep);
-static int handle_at_sleep(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xsleep, "AT#XSLEEP", handle_at_sleep);
+static int handle_at_sleep(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+			   uint32_t)
 {
 	int ret = -EINVAL;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	if (cmd_type == AT_CMD_TYPE_SET_COMMAND) {
-		ret = at_params_unsigned_int_get(list, 1, &sleep.mode);
+		ret = at_params_unsigned_int_get(param_list, 1, &sleep.mode);
 		if (ret) {
 			return -EINVAL;
 		}
@@ -190,13 +184,12 @@ static void slm_shutdown(void)
 	slm_enter_shutdown();
 }
 
-AT_CMD_CUSTOM(xshutdown, "AT#XSHUTDOWN", handle_at_shutdown);
-static int handle_at_shutdown(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xshutdown, "AT#XSHUTDOWN", handle_at_shutdown);
+static int handle_at_shutdown(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
-	if (at_parser_cmd_type_get(at_cmd) != AT_CMD_TYPE_SET_COMMAND) {
+	if (cmd_type != AT_CMD_TYPE_SET_COMMAND) {
 		return -EINVAL;
 	}
-	set_default_at_response(buf, len);
 
 	final_call(slm_shutdown);
 	return 0;
@@ -210,25 +203,23 @@ FUNC_NORETURN void slm_reset(void)
 	sys_reboot(SYS_REBOOT_COLD);
 }
 
-AT_CMD_CUSTOM(xreset, "AT#XRESET", handle_at_reset);
-static int handle_at_reset(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xreset, "AT#XRESET", handle_at_reset);
+static int handle_at_reset(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
-	if (at_parser_cmd_type_get(at_cmd) != AT_CMD_TYPE_SET_COMMAND) {
+	if (cmd_type != AT_CMD_TYPE_SET_COMMAND) {
 		return -EINVAL;
 	}
-	set_default_at_response(buf, len);
 
 	final_call(slm_reset);
 	return 0;
 }
 
-AT_CMD_CUSTOM(xmodemreset, "AT#XMODEMRESET", handle_at_modemreset);
-static int handle_at_modemreset(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xmodemreset, "AT#XMODEMRESET", handle_at_modemreset);
+static int handle_at_modemreset(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
-	if (at_parser_cmd_type_get(at_cmd) != AT_CMD_TYPE_SET_COMMAND) {
+	if (cmd_type != AT_CMD_TYPE_SET_COMMAND) {
 		return -EINVAL;
 	}
-	set_default_at_response(buf, len);
 
 	/* The modem must be put in minimal function mode before being shut down. */
 	slm_power_off_modem();
@@ -265,15 +256,14 @@ out:
 	return 0;
 }
 
-AT_CMD_CUSTOM(xuuid, "AT#XUUID", handle_at_uuid);
-static int handle_at_uuid(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xuuid, "AT#XUUID", handle_at_uuid);
+static int handle_at_uuid(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
 	int ret;
 
-	if (at_parser_cmd_type_get(at_cmd) != AT_CMD_TYPE_SET_COMMAND) {
+	if (cmd_type != AT_CMD_TYPE_SET_COMMAND) {
 		return -EINVAL;
 	}
-	set_default_at_response(buf, len);
 
 	struct nrf_device_uuid dev = {0};
 
@@ -287,19 +277,16 @@ static int handle_at_uuid(char *buf, size_t len, char *at_cmd)
 	return ret;
 }
 
-AT_CMD_CUSTOM(xdatactrl, "AT#XDATACTRL", handle_at_datactrl);
-static int handle_at_datactrl(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xdatactrl, "AT#XDATACTRL", handle_at_datactrl);
+static int handle_at_datactrl(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+			      uint32_t)
 {
 	int ret = 0;
 	uint16_t time_limit, time_limit_min;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		ret = at_params_unsigned_short_get(list, 1, &time_limit);
+		ret = at_params_unsigned_short_get(param_list, 1, &time_limit);
 		if (ret) {
 			return ret;
 		}
@@ -325,7 +312,6 @@ static int handle_at_datactrl(char *buf, size_t len, char *at_cmd)
 
 	return ret;
 }
-
 
 static const char * const slm_at_cmd_list[] = {
 	/* Generic commands */
@@ -446,13 +432,10 @@ static const char * const slm_at_cmd_list[] = {
 #endif
 };
 
-AT_CMD_CUSTOM(xclac, "AT#XCLAC", handle_at_clac);
-static int handle_at_clac(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xclac, "AT#XCLAC", handle_at_clac);
+static int handle_at_clac(enum at_cmd_type cmd_type, const struct at_param_list *, uint32_t)
 {
 	int ret = -EINVAL;
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	if (cmd_type == AT_CMD_TYPE_SET_COMMAND) {
 		int total = ARRAY_SIZE(slm_at_cmd_list);

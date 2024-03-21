@@ -172,19 +172,16 @@ static int do_sms_send(const char *number, const char *message)
 	return err;
 }
 
-AT_CMD_CUSTOM(xsms, "AT#XSMS", handle_at_sms);
-static int handle_at_sms(char *buf, size_t len, char *at_cmd)
+SLM_AT_CMD_CUSTOM(xsms, "AT#XSMS", handle_at_sms);
+static int handle_at_sms(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+			 uint32_t)
 {
 	int err = -EINVAL;
 	uint16_t op;
-	const struct at_param_list *list = slm_get_at_param_list(at_cmd);
-	enum at_cmd_type cmd_type = at_parser_cmd_type_get(at_cmd);
-
-	set_default_at_response(buf, len);
 
 	switch (cmd_type) {
 	case AT_CMD_TYPE_SET_COMMAND:
-		err = at_params_unsigned_short_get(list, 1, &op);
+		err = at_params_unsigned_short_get(param_list, 1, &op);
 		if (err) {
 			return err;
 		}
@@ -198,12 +195,12 @@ static int handle_at_sms(char *buf, size_t len, char *at_cmd)
 			int size;
 
 			size = SMS_MAX_ADDRESS_LEN_CHARS + 1;
-			err = util_string_get(list, 2, number, &size);
+			err = util_string_get(param_list, 2, number, &size);
 			if (err) {
 				return err;
 			}
 			size = MAX_CONCATENATED_MESSAGE * SMS_MAX_PAYLOAD_LEN_CHARS;
-			err = util_string_get(list, 3, message, &size);
+			err = util_string_get(param_list, 3, message, &size);
 			if (err) {
 				return err;
 			}
