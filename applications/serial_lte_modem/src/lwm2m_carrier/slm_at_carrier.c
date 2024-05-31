@@ -224,7 +224,7 @@ static int carrier_datamode_callback(uint8_t op, const uint8_t *data, int len, u
 
 /* AT#XCARRIER="app_data_set"[,<data>][,<obj_inst_id>,<res_inst_id>] */
 SLM_AT_CMD_CUSTOM(xcarrier_app_data_set, "AT#XCARRIER=\"app_data_set\"", do_carrier_appdata_set);
-static int do_carrier_appdata_set(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_appdata_set(enum at_parser_cmd_type, struct at_parser *parser,
 				  uint32_t param_count)
 {
 	int ret = 0;
@@ -242,7 +242,7 @@ static int do_carrier_appdata_set(enum at_cmd_type, const struct at_param_list *
 		uint16_t path[3] = { LWM2M_CARRIER_OBJECT_APP_DATA_CONTAINER, 0, 0 };
 		uint8_t path_len = 3;
 
-		ret = util_string_get(param_list, 2, data, &size);
+		ret = at_parser_string_get(parser, 2, data, &size);
 		if (ret) {
 			return ret;
 		}
@@ -253,16 +253,27 @@ static int do_carrier_appdata_set(enum at_cmd_type, const struct at_param_list *
 		char buffer[CONFIG_SLM_CARRIER_APP_DATA_BUFFER_LEN] = {0};
 		int size = 0;
 
+		if (param_count == 5) {
+			size = CONFIG_SLM_CARRIER_APP_DATA_BUFFER_LEN;
+
+			ret = at_parser_string_get(parser, 2, buffer, &size);
+			if (ret) {
+				return ret;
+			}
+
+			data = buffer;
+		}
+
 		uint16_t inst_id;
 		uint16_t res_inst_id;
 
-		ret = at_params_unsigned_short_get(param_list, param_count - 2, &inst_id);
+		ret = at_parser_num_get(parser, param_count - 2, &inst_id);
 		if (ret) {
 			return ret;
 		}
 
-		ret = at_params_unsigned_short_get(param_list, param_count - 1,
-						   &res_inst_id);
+		ret = at_parser_num_get(parser, param_count - 1,
+					&res_inst_id);
 		if (ret) {
 			return ret;
 		}
@@ -270,17 +281,6 @@ static int do_carrier_appdata_set(enum at_cmd_type, const struct at_param_list *
 		uint16_t path[4] = { LWM2M_CARRIER_OBJECT_BINARY_APP_DATA_CONTAINER, inst_id, 0,
 				     res_inst_id };
 		uint8_t path_len = 4;
-
-		if (param_count == 5) {
-			size = CONFIG_SLM_CARRIER_APP_DATA_BUFFER_LEN;
-
-			ret = util_string_get(param_list, 2, buffer, &size);
-			if (ret) {
-				return ret;
-			}
-
-			data = buffer;
-		}
 
 		ret = lwm2m_carrier_app_data_set(path, path_len, data, size);
 	}
@@ -291,13 +291,13 @@ static int do_carrier_appdata_set(enum at_cmd_type, const struct at_param_list *
 /* AT#XCARRIER="battery_level",<battery_level> */
 SLM_AT_CMD_CUSTOM(xcarrier_battery_level, "AT#XCARRIER=\"battery_level\"",
 	      do_carrier_device_battery_level);
-static int do_carrier_device_battery_level(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_battery_level(enum at_parser_cmd_type, struct at_parser *parser,
 					   uint32_t)
 {
 	int ret;
 	uint16_t battery_level;
 
-	ret = at_params_unsigned_short_get(param_list, 2, &battery_level);
+	ret = at_parser_num_get(parser, 2, &battery_level);
 	if (ret) {
 		return ret;
 	}
@@ -308,12 +308,12 @@ static int do_carrier_device_battery_level(enum at_cmd_type, const struct at_par
 /* AT#XCARRIER="battery_status",<battery_status> */
 SLM_AT_CMD_CUSTOM(xcarrier_battery_status, "AT#XCARRIER=\"battery_status\"",
 	      do_carrier_device_battery_status);
-static int do_carrier_device_battery_status(enum at_cmd_type,
-					    const struct at_param_list *param_list, uint32_t)
+static int do_carrier_device_battery_status(enum at_parser_cmd_type,
+					    struct at_parser *parser, uint32_t)
 {
 	int ret, battery_status;
 
-	ret = at_params_int_get(param_list, 2, &battery_status);
+	ret = at_parser_num_get(parser, 2, &battery_status);
 	if (ret) {
 		return ret;
 	}
@@ -323,18 +323,18 @@ static int do_carrier_device_battery_status(enum at_cmd_type,
 
 /* AT#XCARRIER="current",<power_source>,<current> */
 SLM_AT_CMD_CUSTOM(xcarrier_current, "AT#XCARRIER=\"current\"", do_carrier_device_current);
-static int do_carrier_device_current(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_current(enum at_parser_cmd_type, struct at_parser *parser,
 				     uint32_t)
 {
 	int ret, current;
 	uint16_t power_source;
 
-	ret = at_params_unsigned_short_get(param_list, 2, &power_source);
+	ret = at_parser_num_get(parser, 2, &power_source);
 	if (ret) {
 		return ret;
 	}
 
-	ret = at_params_int_get(param_list, 3, &current);
+	ret = at_parser_num_get(parser, 3, &current);
 	if (ret) {
 		return ret;
 	}
@@ -344,7 +344,7 @@ static int do_carrier_device_current(enum at_cmd_type, const struct at_param_lis
 
 /* AT#XCARRIER="error","add|remove",<error> */
 SLM_AT_CMD_CUSTOM(xcarrie_error, "AT#XCARRIER=\"error\"", do_carrier_device_error);
-static int do_carrier_device_error(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_error(enum at_parser_cmd_type, struct at_parser *parser,
 				   uint32_t)
 {
 	int ret;
@@ -352,12 +352,12 @@ static int do_carrier_device_error(enum at_cmd_type, const struct at_param_list 
 	char operation[7];
 	int size = sizeof(operation);
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
 
-	ret = at_params_int_get(param_list, 3, &error_code);
+	ret = at_parser_num_get(parser, 3, &error_code);
 	if (ret) {
 		return ret;
 	}
@@ -391,14 +391,14 @@ int lwm2m_carrier_memory_free_read(void)
 
 /* AT#XCARRIER="memory_free","read|write"[,<memory>] */
 SLM_AT_CMD_CUSTOM(xcarrier_memory_free, "AT#XCARRIER=\"memory_free\"", do_carrier_device_mem_free);
-static int do_carrier_device_mem_free(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_mem_free(enum at_parser_cmd_type, struct at_parser *parser,
 				      uint32_t)
 {
 	int ret, memory;
 	char operation[6];
 	int size = sizeof(operation);
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
@@ -408,7 +408,7 @@ static int do_carrier_device_mem_free(enum at_cmd_type, const struct at_param_li
 
 		rsp_send("\r\n#XCARRIER: %d\r\n", memory);
 	} else if (slm_util_casecmp(operation, "write")) {
-		ret = at_params_int_get(param_list, 3, &memory);
+		ret = at_parser_num_get(parser, 3, &memory);
 		if (ret) {
 			return ret;
 		}
@@ -422,12 +422,12 @@ static int do_carrier_device_mem_free(enum at_cmd_type, const struct at_param_li
 /* AT#XCARRIER="memory_total",<memory> */
 SLM_AT_CMD_CUSTOM(xcarrier_memory_total, "AT#XCARRIER=\"memory_total\"",
 	      do_carrier_device_mem_total);
-static int do_carrier_device_mem_total(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_mem_total(enum at_parser_cmd_type, struct at_parser *parser,
 				       uint32_t)
 {
 	int ret, memory_total;
 
-	ret = at_params_int_get(param_list, 2, &memory_total);
+	ret = at_parser_num_get(parser, 2, &memory_total);
 	if (ret) {
 		return ret;
 	}
@@ -438,7 +438,7 @@ static int do_carrier_device_mem_total(enum at_cmd_type, const struct at_param_l
 /* AT#XCARRIER="power_sources"[,<source1>[<source2>[,...[,<source7>]]]] */
 SLM_AT_CMD_CUSTOM(xcarrier_power_sources, "AT#XCARRIER=\"power_sources\"",
 	      do_carrier_device_power_sources);
-static int do_carrier_device_power_sources(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_power_sources(enum at_parser_cmd_type, struct at_parser *parser,
 					   uint32_t param_count)
 {
 	int ret;
@@ -451,7 +451,7 @@ static int do_carrier_device_power_sources(enum at_cmd_type, const struct at_par
 	}
 
 	for (int i = 2; i < param_count; i++) {
-		ret = at_params_unsigned_short_get(param_list, i, &source);
+		ret = at_parser_num_get(parser, i, &source);
 		if (ret) {
 			return ret;
 		}
@@ -464,14 +464,14 @@ static int do_carrier_device_power_sources(enum at_cmd_type, const struct at_par
 
 /* AT#XCARRIER="timezone",<timezone> */
 SLM_AT_CMD_CUSTOM(xcarrier_timezone, "AT#XCARRIER=\"timezone\"", do_carrier_device_timezone);
-static int do_carrier_device_timezone(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_timezone(enum at_parser_cmd_type, struct at_parser *parser,
 				      uint32_t)
 {
 	int ret;
 	char operation[6];
 	size_t size = sizeof(operation);
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
@@ -493,7 +493,7 @@ static int do_carrier_device_timezone(enum at_cmd_type, const struct at_param_li
 
 		size = sizeof(timezone);
 
-		ret = util_string_get(param_list, 3, timezone, &size);
+		ret = at_parser_string_get(parser, 3, timezone, &size);
 		if (ret) {
 			return ret;
 		}
@@ -518,7 +518,7 @@ static void print_utc_time(char *output, int32_t timestamp)
 
 /* AT#XCARRIER="time" */
 SLM_AT_CMD_CUSTOM(xcarrier_time, "AT#XCARRIER=\"time\"", do_carrier_device_time);
-static int do_carrier_device_time(enum at_cmd_type, const struct at_param_list *, uint32_t)
+static int do_carrier_device_time(enum at_parser_cmd_type, struct at_parser *, uint32_t)
 {
 	int utc_time, utc_offset;
 	const char *timezone = NULL;
@@ -542,14 +542,14 @@ static int do_carrier_device_time(enum at_cmd_type, const struct at_param_list *
 /* AT#XCARRIER="utc_offset","read|write"[,<utc_offset>] */
 SLM_AT_CMD_CUSTOM(xcarrier_utc_offset, "AT#XCARRIER=\"utc_offset\"",
 	      do_carrier_device_utc_offset);
-static int do_carrier_device_utc_offset(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_utc_offset(enum at_parser_cmd_type, struct at_parser *parser,
 					uint32_t)
 {
 	int ret, utc_offset;
 	char operation[6];
 	size_t size = sizeof(operation);
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
@@ -561,7 +561,7 @@ static int do_carrier_device_utc_offset(enum at_cmd_type, const struct at_param_
 
 		return 0;
 	} else if (slm_util_casecmp(operation, "WRITE")) {
-		ret = at_params_int_get(param_list, 3, &utc_offset);
+		ret = at_parser_num_get(parser, 3, &utc_offset);
 		if (ret) {
 			return ret;
 		}
@@ -576,7 +576,7 @@ static int do_carrier_device_utc_offset(enum at_cmd_type, const struct at_param_
 
 /* AT#XCARRIER="utc_time","read|write"[,<utc_time>] */
 SLM_AT_CMD_CUSTOM(xcarrier_utc_time, "AT#XCARRIER=\"utc_time\"", do_carrier_device_utc_time);
-static int do_carrier_device_utc_time(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_utc_time(enum at_parser_cmd_type, struct at_parser *parser,
 				      uint32_t)
 {
 	int ret, utc_time;
@@ -584,7 +584,7 @@ static int do_carrier_device_utc_time(enum at_cmd_type, const struct at_param_li
 	size_t size = sizeof(operation);
 	char time_str[TIME_STR_SIZE];
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
@@ -597,7 +597,7 @@ static int do_carrier_device_utc_time(enum at_cmd_type, const struct at_param_li
 
 		return 0;
 	} else if (slm_util_casecmp(operation, "WRITE")) {
-		ret = at_params_int_get(param_list, 3, &utc_time);
+		ret = at_parser_num_get(parser, 3, &utc_time);
 		if (ret) {
 			return ret;
 		}
@@ -612,18 +612,18 @@ static int do_carrier_device_utc_time(enum at_cmd_type, const struct at_param_li
 
 /* AT#XCARRIER="voltage",<power_source>,<voltage> */
 SLM_AT_CMD_CUSTOM(xcarrier_voltage, "AT#XCARRIER=\"voltage\"", do_carrier_device_voltage);
-static int do_carrier_device_voltage(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_device_voltage(enum at_parser_cmd_type, struct at_parser *parser,
 				     uint32_t)
 {
 	int ret, voltage;
 	uint16_t power_source;
 
-	ret = at_params_unsigned_short_get(param_list, 2, &power_source);
+	ret = at_parser_num_get(parser, 2, &power_source);
 	if (ret) {
 		return ret;
 	}
 
-	ret = at_params_int_get(param_list, 3, &voltage);
+	ret = at_parser_num_get(parser, 3, &voltage);
 	if (ret) {
 		return ret;
 	}
@@ -634,13 +634,13 @@ static int do_carrier_device_voltage(enum at_cmd_type, const struct at_param_lis
 /* AT#XCARRIER="log_data",<data> */
 SLM_AT_CMD_CUSTOM(xcarrier_log_data, "AT#XCARRIER=\"log_data\"",
 	      do_carrier_event_log_log_data);
-static int do_carrier_event_log_log_data(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_event_log_log_data(enum at_parser_cmd_type, struct at_parser *parser,
 					 uint32_t)
 {
 	char data[CONFIG_SLM_CARRIER_APP_DATA_BUFFER_LEN] = {0};
 	int size = CONFIG_SLM_CARRIER_APP_DATA_BUFFER_LEN;
 
-	int ret = util_string_get(param_list, 2, data, &size);
+	int ret = at_parser_string_get(parser, 2, data, &size);
 
 	if (ret) {
 		return ret;
@@ -652,7 +652,7 @@ static int do_carrier_event_log_log_data(enum at_cmd_type, const struct at_param
 /* AT#XCARRIER="position",<latitude>,<longitude>,<altitude>,<timestamp>,<uncertainty> */
 SLM_AT_CMD_CUSTOM(xcarrier_position, "AT#XCARRIER=\"position\"",
 	      do_carrier_location_position);
-static int do_carrier_location_position(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_location_position(enum at_parser_cmd_type, struct at_parser *parser,
 					uint32_t param_count)
 {
 	int ret;
@@ -665,27 +665,27 @@ static int do_carrier_location_position(enum at_cmd_type, const struct at_param_
 		return -EINVAL;
 	}
 
-	ret = util_string_to_double_get(param_list, 2, &latitude);
+	ret = util_string_to_double_get(parser, 2, &latitude);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_double_get(param_list, 3, &longitude);
+	ret = util_string_to_double_get(parser, 3, &longitude);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 4, &altitude);
+	ret = util_string_to_float_get(parser, 4, &altitude);
 	if (ret) {
 		return ret;
 	}
 
-	ret = at_params_unsigned_int_get(param_list, 5, &timestamp);
+	ret = at_parser_num_get(parser, 5, &timestamp);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 6, &uncertainty);
+	ret = util_string_to_float_get(parser, 6, &uncertainty);
 	if (ret) {
 		return ret;
 	}
@@ -696,7 +696,7 @@ static int do_carrier_location_position(enum at_cmd_type, const struct at_param_
 /* AT#XCARRIER="velocity",<heading>,<speed_h>,<speed_v>,<uncertainty_h>,<uncertainty_v> */
 SLM_AT_CMD_CUSTOM(xcarrier_velocity, "AT#XCARRIER=\"velocity\"",
 	      do_carrier_location_velocity);
-static int do_carrier_location_velocity(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_location_velocity(enum at_parser_cmd_type, struct at_parser *parser,
 					uint32_t param_count)
 {
 	int ret, heading;
@@ -707,27 +707,27 @@ static int do_carrier_location_velocity(enum at_cmd_type, const struct at_param_
 		return -EINVAL;
 	}
 
-	ret = at_params_int_get(param_list, 2, &heading);
+	ret = at_parser_num_get(parser, 2, &heading);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 3, &speed_h);
+	ret = util_string_to_float_get(parser, 3, &speed_h);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 4, &speed_v);
+	ret = util_string_to_float_get(parser, 4, &speed_v);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 5, &uncertainty_h);
+	ret = util_string_to_float_get(parser, 5, &uncertainty_h);
 	if (ret) {
 		return ret;
 	}
 
-	ret = util_string_to_float_get(param_list, 6, &uncertainty_v);
+	ret = util_string_to_float_get(parser, 6, &uncertainty_v);
 	if (ret) {
 		return ret;
 	}
@@ -737,7 +737,7 @@ static int do_carrier_location_velocity(enum at_cmd_type, const struct at_param_
 
 /* AT#XCARRIER="portfolio","create|read|write",<obj_inst_id>[,<identity_type>[,<identity>]] */
 SLM_AT_CMD_CUSTOM(xcarrier_portfolio, "AT#XCARRIER=\"portfolio\"", do_carrier_portfolio);
-static int do_carrier_portfolio(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_portfolio(enum at_parser_cmd_type, struct at_parser *parser,
 				uint32_t param_count)
 {
 	int ret;
@@ -746,18 +746,18 @@ static int do_carrier_portfolio(enum at_cmd_type, const struct at_param_list *pa
 	size_t size = sizeof(operation);
 	uint16_t buf_len = sizeof(buffer);
 
-	ret = util_string_get(param_list, 2, operation, &size);
+	ret = at_parser_string_get(parser, 2, operation, &size);
 	if (ret) {
 		return ret;
 	}
 
-	ret = at_params_unsigned_short_get(param_list, 3, &instance_id);
+	ret = at_parser_num_get(parser, 3, &instance_id);
 	if (ret) {
 		return ret;
 	}
 
 	if (param_count > 4) {
-		ret = at_params_unsigned_short_get(param_list, 4, &identity_type);
+		ret = at_parser_num_get(parser, 4, &identity_type);
 		if (ret) {
 			return ret;
 		}
@@ -775,7 +775,7 @@ static int do_carrier_portfolio(enum at_cmd_type, const struct at_param_list *pa
 	} else if (slm_util_casecmp(operation, "WRITE") && (param_count > 4)) {
 		size = sizeof(buffer);
 
-		ret = util_string_get(param_list, 5, buffer, &size);
+		ret = at_parser_string_get(parser, 5, buffer, &size);
 		if (ret) {
 			return ret;
 		}
@@ -792,7 +792,7 @@ static int do_carrier_portfolio(enum at_cmd_type, const struct at_param_list *pa
 
 /* AT#XCARRIER="reboot" */
 SLM_AT_CMD_CUSTOM(xcarrier_reboot, "AT#XCARRIER=\"reboot\"", do_carrier_request_reboot);
-static int do_carrier_request_reboot(enum at_cmd_type, const struct at_param_list *, uint32_t)
+static int do_carrier_request_reboot(enum at_parser_cmd_type, struct at_parser *, uint32_t)
 {
 	return lwm2m_carrier_request(LWM2M_CARRIER_REQUEST_REBOOT);
 }
@@ -800,21 +800,21 @@ static int do_carrier_request_reboot(enum at_cmd_type, const struct at_param_lis
 /* AT#XCARRIER="link_down" */
 SLM_AT_CMD_CUSTOM(xcarrier_link_down, "AT#XCARRIER=\"link_down\"",
 	      do_carrier_request_link_down);
-static int do_carrier_request_link_down(enum at_cmd_type, const struct at_param_list *, uint32_t)
+static int do_carrier_request_link_down(enum at_parser_cmd_type, struct at_parser *, uint32_t)
 {
 	return lwm2m_carrier_request(LWM2M_CARRIER_REQUEST_LINK_DOWN);
 }
 
 /* AT#XCARRIER="link_up" */
 SLM_AT_CMD_CUSTOM(xcarrier_link_up, "AT#XCARRIER=\"link_up\"", do_carrier_request_link_up);
-static int do_carrier_request_link_up(enum at_cmd_type, const struct at_param_list *, uint32_t)
+static int do_carrier_request_link_up(enum at_parser_cmd_type, struct at_parser *, uint32_t)
 {
 	return lwm2m_carrier_request(LWM2M_CARRIER_REQUEST_LINK_UP);
 }
 
 /* AT#XCARRIER="send",<obj_id>,<obj_inst_id>,<res_id>[,<res_inst_id>] */
 SLM_AT_CMD_CUSTOM(xcarrier_send, "AT#XCARRIER=\"send\"", do_carrier_send);
-static int do_carrier_send(enum at_cmd_type, const struct at_param_list *param_list,
+static int do_carrier_send(enum at_parser_cmd_type, struct at_parser *parser,
 			   uint32_t param_count)
 {
 	int ret = 0;
@@ -828,7 +828,7 @@ static int do_carrier_send(enum at_cmd_type, const struct at_param_list *param_l
 	uint8_t path_len = 0;
 
 	for (int i = 2; i < param_count; i++) {
-		ret = at_params_unsigned_short_get(param_list, i, &path[i - 2]);
+		ret = at_parser_num_get(param_list, i, &path[i - 2]);
 		if (ret) {
 			return ret;
 		}

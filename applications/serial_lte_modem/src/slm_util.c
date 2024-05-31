@@ -238,31 +238,13 @@ int slm_util_atoh(const char *ascii, uint16_t ascii_len, uint8_t *hex, uint16_t 
 	return (ascii_len / 2);
 }
 
-int util_string_get(const struct at_param_list *list, size_t index, char *value, size_t *len)
-{
-	int ret;
-	size_t size = *len;
-
-	/* at_params_string_get calls "memcpy" instead of "strcpy" */
-	ret = at_params_string_get(list, index, value, len);
-	if (ret) {
-		return ret;
-	}
-	if (*len < size) {
-		*(value + *len) = '\0';
-		return 0;
-	}
-
-	return -ENOMEM;
-}
-
-int util_string_to_float_get(const struct at_param_list *list, size_t index, float *value)
+int util_string_to_float_get(struct at_parser *parser, size_t index, float *value)
 {
 	int ret;
 	char str[32];
 	size_t len = sizeof(str);
 
-	ret = util_string_get(list, index, str, &len);
+	ret = at_parser_string_get(parser, index, str, &len);
 	if (ret) {
 		return ret;
 	}
@@ -272,13 +254,13 @@ int util_string_to_float_get(const struct at_param_list *list, size_t index, flo
 	return 0;
 }
 
-int util_string_to_double_get(const struct at_param_list *list, size_t index, double *value)
+int util_string_to_double_get(struct at_parser *parser, size_t index, double *value)
 {
 	int ret;
 	char str[32];
 	size_t len = sizeof(str);
 
-	ret = util_string_get(list, index, str, &len);
+	ret = at_parser_string_get(parser, index, str, &len);
 	if (ret) {
 		return ret;
 	}

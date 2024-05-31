@@ -19,7 +19,7 @@ enum slm_cmng_opcode {
 };
 
 SLM_AT_CMD_CUSTOM(xcmng, "AT#XCMNG", handle_at_xcmng);
-static int handle_at_xcmng(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+static int handle_at_xcmng(enum at_parser_cmd_type cmd_type, const struct at_parser *parser,
 			   uint32_t param_count)
 {
 	int err = -EINVAL;
@@ -27,15 +27,15 @@ static int handle_at_xcmng(enum at_cmd_type cmd_type, const struct at_param_list
 	nrf_sec_tag_t sec_tag;
 
 	switch (cmd_type) {
-	case AT_CMD_TYPE_SET_COMMAND:
-		if (at_params_unsigned_short_get(param_list, 1, &op)) {
+	case AT_PARSER_CMD_TYPE_SET:
+		if (at_parser_num_get(parser, 1, &op)) {
 			return -EINVAL;
 		}
 		if (param_count > 2 &&
-		    at_params_unsigned_int_get(param_list, 2, &sec_tag)) {
+		    at_parser_num_get(parser, 2, &sec_tag)) {
 			return -EINVAL;
 		}
-		if (param_count > 3 && (at_params_unsigned_short_get(param_list, 3, &type) ||
+		if (param_count > 3 && (at_parser_num_get(parser, 3, &type) ||
 					type > SLM_AT_CMNG_TYPE_PSK_ID)) {
 			return -EINVAL;
 		}

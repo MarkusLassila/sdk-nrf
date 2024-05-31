@@ -518,7 +518,7 @@ int slm_ppp_init(void)
 }
 
 SLM_AT_CMD_CUSTOM(xppp, "AT#XPPP", handle_at_ppp);
-static int handle_at_ppp(enum at_cmd_type cmd_type, const struct at_param_list *param_list,
+static int handle_at_ppp(enum at_parser_cmd_type cmd_type, struct at_parser *parser,
 			 uint32_t param_count)
 {
 	int ret;
@@ -537,7 +537,7 @@ static int handle_at_ppp(enum at_cmd_type cmd_type, const struct at_param_list *
 		return -EINVAL;
 	}
 
-	ret = at_params_unsigned_int_get(param_list, 1, &op);
+	ret = at_parser_num_get(parser, 1, &op);
 	if (ret) {
 		return ret;
 	} else if (op >= OP_COUNT) {
