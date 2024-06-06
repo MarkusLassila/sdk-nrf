@@ -276,11 +276,11 @@ static int handle_at_cmux(enum at_parser_cmd_type cmd_type, struct at_parser *pa
 	unsigned int at_dlci;
 	int ret;
 
-	if (cmd_type == AT_CMD_TYPE_READ_COMMAND) {
+	if (cmd_type == AT_PARSER_CMD_TYPE_READ) {
 		rsp_send("\r\n#XCMUX: %u,%u\r\n", cmux.at_channel + 1, CHANNEL_COUNT);
 		return 0;
 	}
-	if (cmd_type != AT_CMD_TYPE_SET_COMMAND || param_count > 2) {
+	if (cmd_type != AT_PARSER_CMD_TYPE_SET || param_count > 2) {
 		return -EINVAL;
 	}
 

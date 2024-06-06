@@ -828,7 +828,7 @@ static int do_carrier_send(enum at_parser_cmd_type, struct at_parser *parser,
 	uint8_t path_len = 0;
 
 	for (int i = 2; i < param_count; i++) {
-		ret = at_parser_num_get(param_list, i, &path[i - 2]);
+		ret = at_parser_num_get(parser, i, &path[i - 2]);
 		if (ret) {
 			return ret;
 		}

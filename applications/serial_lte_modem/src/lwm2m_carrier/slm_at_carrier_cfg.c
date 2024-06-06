@@ -209,7 +209,7 @@ static int do_cfg_firmware_download_timeout(enum at_parser_cmd_type,
 	int ret;
 	uint16_t firmware_download_timeout;
 
-	ret = at_parser_num_get(param_list, 2, &firmware_download_timeout);
+	ret = at_parser_num_get(parser, 2, &firmware_download_timeout);
 	if (ret) {
 		return ret;
 	}
@@ -341,7 +341,7 @@ static int do_cfg_manufacturer(enum at_parser_cmd_type, struct at_parser *parser
 	char manufacturer[32];
 	int size = sizeof(manufacturer);
 
-	ret = at_parser_string_get(param_list, 2, manufacturer, &size);
+	ret = at_parser_string_get(parser, 2, manufacturer, &size);
 	if (ret) {
 		return ret;
 	}
@@ -365,7 +365,7 @@ static int do_cfg_model_number(enum at_parser_cmd_type, struct at_parser *parser
 	char model_number[32];
 	int size = sizeof(model_number);
 
-	ret = at_parser_string_get(param_list, 2, model_number, &size);
+	ret = at_parser_string_get(parser, 2, model_number, &size);
 	if (ret) {
 		return ret;
 	}
@@ -390,7 +390,7 @@ static int do_cfg_software_version(enum at_parser_cmd_type, struct at_parser *pa
 	char software_version[32];
 	int size = sizeof(software_version);
 
-	ret = at_parser_string_get(param_list, 2, software_version, &size);
+	ret = at_parser_string_get(parser, 2, software_version, &size);
 	if (ret) {
 		return ret;
 	}
@@ -629,7 +629,7 @@ static int do_cfg_is_bootstrap(enum at_parser_cmd_type, struct at_parser *parser
 	int ret;
 	uint16_t is_bootstrap;
 
-	ret = at_parser_num_get(param_list, 2, &is_bootstrap);
+	ret = at_parser_num_get(parser, 2, &is_bootstrap);
 	if (ret) {
 		return ret;
 	}

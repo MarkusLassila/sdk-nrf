@@ -19,7 +19,7 @@ enum slm_cmng_opcode {
 };
 
 SLM_AT_CMD_CUSTOM(xcmng, "AT#XCMNG", handle_at_xcmng);
-static int handle_at_xcmng(enum at_parser_cmd_type cmd_type, const struct at_parser *parser,
+static int handle_at_xcmng(enum at_parser_cmd_type cmd_type, struct at_parser *parser,
 			   uint32_t param_count)
 {
 	int err = -EINVAL;
