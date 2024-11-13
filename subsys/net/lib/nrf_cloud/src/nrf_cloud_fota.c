@@ -873,11 +873,11 @@ static int start_job(struct nrf_cloud_fota_job *const job, const bool send_evt)
 		.type = NRF_CLOUD_DL_TYPE_FOTA,
 		.host = job->info.host,
 		.path = job->info.path,
-		.dl_cfg = {
+		.dlc_host_cfg = {
 			.sec_tag_list = &sec_tag,
 			.sec_tag_count = (sec_tag < 0 ? 0 : 1),
 			.pdn_id = 0,
-			.frag_size_override = CONFIG_NRF_CLOUD_FOTA_DOWNLOAD_FRAGMENT_SIZE,
+			.range_override = CONFIG_NRF_CLOUD_FOTA_DOWNLOAD_FRAGMENT_SIZE,
 		},
 		.fota = {
 			.expected_type = img_type,
@@ -1118,11 +1118,10 @@ static int handle_mqtt_evt_publish(const struct mqtt_evt *evt)
 		LOG_INF("Job %s already completed... skipping", last_job);
 		nrf_cloud_fota_job_free(job_info);
 	} else {
-		LOG_DBG("Job ID: %s, type: %d, size: %d",
+		LOG_DBG("Job ID: %s, type: %d, size: %d, file: %s/%s",
 			job_info->id,
 			job_info->type,
-			job_info->file_size);
-		LOG_DBG("File: %s/%s",
+			job_info->file_size,
 			job_info->host,
 			job_info->path);
 	}

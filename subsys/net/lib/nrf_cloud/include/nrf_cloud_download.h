@@ -8,7 +8,7 @@
 #define NRF_CLOUD_DOWNLOAD_H__
 
 #include <dfu/dfu_target.h>
-#include <net/download_client.h>
+#include <net/downloader.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -19,7 +19,7 @@ enum nrf_cloud_download_type {
 
 	/* Download a FOTA update using the fota_download library */
 	NRF_CLOUD_DL_TYPE_FOTA,
-	/* Download data using the download_client library */
+	/* Download data using the downloader library */
 	NRF_CLOUD_DL_TYPE_DL_CLIENT,
 
 	NRF_CLOUD_DL_TYPE_DL__LAST
@@ -42,14 +42,14 @@ struct nrf_cloud_download_data {
 	/* File download path */
 	const char *path;
 
-	/* Download client configuration */
-	struct download_client_cfg dl_cfg;
+	/* Download client host configuration */
+	struct downloader_host_cfg dlc_host_cfg;
 
 	union {
 		/* FOTA type data */
 		struct nrf_cloud_download_fota fota;
 		/* Download client type data */
-		struct download_client *dlc;
+		struct downloader *dlc;
 	};
 
 #if defined(CONFIG_NRF_CLOUD_COAP_DOWNLOADS)
