@@ -309,6 +309,10 @@ static void check_app_fota_status(void)
 	 */
 	const int type = mcuboot_swap_type();
 
+	// Not really usefull. It is expected that we crash before this in libmodem, and we cannot get the
+	// RTT-traces out after reset.
+	LOG_INF("MCUBOOT type: %d slm_fota_type: %d, slm_fota_stage:%d", type, slm_fota_type, slm_fota_stage);
+
 	switch (type) {
 	/** Attempt to boot the contents of slot 0. */
 	case BOOT_SWAP_TYPE_NONE:
@@ -334,6 +338,8 @@ static void check_app_fota_status(void)
 	}
 	slm_fota_type = DFU_TARGET_IMAGE_TYPE_MCUBOOT;
 	slm_fota_stage = FOTA_STAGE_COMPLETE;
+
+	LOG_INF("Later: MCUBOOT type: %d slm_fota_type: %d, slm_fota_stage:%d", type, slm_fota_type, slm_fota_stage);
 }
 
 int lte_auto_connect(void)

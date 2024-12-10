@@ -220,6 +220,11 @@ FUNC_NORETURN void slm_reset(void)
 /* Handles AT#XRESET command. */
 static int handle_at_reset(enum at_cmd_type type)
 {
+	// For causing null pointer exception to test that the fatal.c works correctly.
+	// int *ptr = NULL;
+	// int value = *ptr;
+	// printk("value: %d\n", value);
+
 	if (type != AT_CMD_TYPE_SET_COMMAND) {
 		return -EINVAL;
 	}
