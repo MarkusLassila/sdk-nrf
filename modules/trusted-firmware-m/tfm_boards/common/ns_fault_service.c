@@ -150,6 +150,9 @@ void ns_fault_service_call_handler(void)
 	}
 
 	if (ns_callback) {
+		volatile int stop = 1;
+		while (stop);
+
 		call_ns_callback(&exc_ctx);
 	}
 	/* If no callback or the callback returns  we continue with the
