@@ -279,6 +279,12 @@ config TFM_PS_STACK_SIZE
 	default 0x1200 if TFM_PS_NUM_ASSETS > 70
 	default 0xC00 if TFM_PS_NUM_ASSETS > 30
 	default 0x700
+
+config TFM_PLATFORM_PSA_ADAC_SECURE_DEBUG
+	bool "Enable PSA ADAC secure debug"
+	default n
+	help
+	  Enable secure debug for PSA ADAC
 endmenu
 
 # Copied from secure_fw/spm/Kconfig, removed CONFIG prefix
