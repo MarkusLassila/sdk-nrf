@@ -308,6 +308,7 @@ comment "Nordic addded RNG configuration"
 
 config PSA_WANT_GENERATE_RANDOM
 	bool "PSA RNG support" if !MBEDTLS_PROMPTLESS
+	default y
 	default y if PSA_CRYPTO_ENABLE_ALL
 
 comment "Nordic added key types"
