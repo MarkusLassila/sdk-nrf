@@ -1,0 +1,1151 @@
+Hello world (type not set) reference.
+
+[245/249] Linking C executable bin/tfm_s.axf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       77584 B       256 KB     29.60%
+             RAM:       59816 B        76 KB     76.86%
+
+m/api_ns/cmake/set_extensions.cmake
+[222/222] Linking C executable zephyr/zephyr.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       24908 B      1140 KB      2.13%
+             RAM:        4616 B       112 KB      4.02%
+        IDT_LIST:          0 GB        32 KB      0.00%
+
+(zephyr) mal6@mal6:~/ncs/nrf/samples/tfm/tfm_hello_world/build/tfm_hello_world(nrf54l15-adac-prototyping)$ ninja tfm_rom_report
+[0/4] Performing build step for 'tfm'
+ninja: no work to do.
+[1/2] cd /home/mal6/ncs/nrf/samples/tfm/t...orld --workspace=/home/mal6/ncs -d 99 rom
+Path                                                                                             Size       %  Address    Section    
+==========================================================================================================================================
+Root                                                                                            77519 100.00%  - 
+├── (hidden)                                                                                     2199   2.84%  - 
+├── (no paths)                                                                                    726   0.94%  - 
+│   ├── CSWTCH.22                                                                                   3   0.00%  
+│   ├── CSWTCH.33                                                                                  18   0.02%  
+│   ├── CSWTCH.35                                                                                   3   0.00%  
+│   ├── CSWTCH.447                                                                                 18   0.02%  
+│   ├── CSWTCH.548                                                                                 36   0.05%  
+│   ├── CSWTCH.87                                                                                  16   0.02%  
+│   ├── CSWTCH.89                                                                                  18   0.02%  
+│   ├── CSWTCH.97                                                                                  12   0.02%  
+│   ├── C_BusFault_Handler                                                                          4   0.01%  
+│   ├── C_MemManage_Handler                                                                         4   0.01%  
+│   ├── C_SecureFault_Handler                                                                       4   0.01%  
+│   ├── C_UsageFault_Handler                                                                        4   0.01%  
+│   ├── SystemCoreClock                                                                             4   0.01%  
+│   ├── __libc_init_array                                                                          72   0.09%  
+│   ├── _exit                                                                                       2   0.00%  
+│   ├── _global_impure_ptr                                                                          4   0.01%  
+│   ├── cmse_check_address_range                                                                  198   0.26%  
+│   ├── cracen_initialized.0                                                                        4   0.01%  
+│   ├── cracen_mac_verify_setup                                                                     4   0.01%  
+│   ├── delay_machine_code.0                                                                        6   0.01%  
+│   ├── exit                                                                                       40   0.05%  
+│   ├── impure_data                                                                                96   0.12%  
+│   ├── its_flash_fs_ops_nor                                                                       20   0.03%  
+│   ├── mbedtls_printf                                                                              4   0.01%  
+│   ├── nrf_security_mutex_unlock                                                                   4   0.01%  
+│   ├── platform_free_uninit                                                                        2   0.00%  
+│   ├── psa_driver_wrapper_key_agreement                                                           16   0.02%  
+│   ├── sxhashalg_sha2_224                                                                         32   0.04%  
+│   ├── sxhashalg_sha2_256                                                                         32   0.04%  
+│   ├── tfm_crypto_asymmetric_encrypt_interface                                                     6   0.01%  
+│   ├── tfm_psa_call_veneer                                                                         8   0.01%  
+│   ├── tfm_psa_close_veneer                                                                        8   0.01%  
+│   ├── tfm_psa_connect_veneer                                                                      8   0.01%  
+│   ├── tfm_psa_framework_version_veneer                                                            8   0.01%  
+│   └── tfm_psa_version_veneer                                                                      8   0.01%  
+├── /                                                                                             108   0.14%  - 
+│   └── home                                                                                      108   0.14%  - 
+│       └── mal6                                                                                  108   0.14%  - 
+│           └── zephyr-sdk-0.16.8                                                                 108   0.14%  - 
+│               └── arm-zephyr-eabi                                                               108   0.14%  - 
+│                   └── arm-zephyr-eabi                                                           108   0.14%  - 
+│                       └── sys-include                                                           108   0.14%  - 
+│                           └── string.h                                                          108   0.14%  - 
+│                               └── memmove                                                       108   0.14%  
+├── OUTPUT_DIR                                                                                    336   0.43%  - 
+│   └── tfm                                                                                       336   0.43%  - 
+│       └── generated                                                                             336   0.43%  - 
+│           └── secure_fw                                                                         336   0.43%  - 
+│               └── partitions                                                                    336   0.43%  - 
+│                   ├── crypto                                                                     84   0.11%  - 
+│                   │   └── auto_generated                                                         84   0.11%  - 
+│                   │       └── load_info_tfm_crypto.c                                             84   0.11%  - 
+│                   │           └── tfm_sp_crypto_load                                             84   0.11%  
+│                   ├── internal_trusted_storage                                                   80   0.10%  - 
+│                   │   └── auto_generated                                                         80   0.10%  - 
+│                   │       └── load_info_tfm_internal_trusted_storage.c                           80   0.10%  - 
+│                   │           └── tfm_sp_its_load                                                80   0.10%  
+│                   ├── platform                                                                   80   0.10%  - 
+│                   │   └── auto_generated                                                         80   0.10%  - 
+│                   │       └── load_info_tfm_platform.c                                           80   0.10%  - 
+│                   │           └── tfm_sp_platform_load                                           80   0.10%  
+│                   └── protected_storage                                                          92   0.12%  - 
+│                       └── auto_generated                                                         92   0.12%  - 
+│                           └── load_info_tfm_protected_storage.c                                  92   0.12%  - 
+│                               └── tfm_sp_ps_load                                                 92   0.12%  
+├── WORKSPACE                                                                                   73998  95.46%  - 
+│   ├── modules                                                                                 44782  57.77%  - 
+│   │   ├── crypto                                                                              13350  17.22%  - 
+│   │   │   ├── mbedtls                                                                           726   0.94%  - 
+│   │   │   │   └── library                                                                       726   0.94%  - 
+│   │   │   │       ├── constant_time.c                                                            26   0.03%  - 
+│   │   │   │       │   └── mbedtls_ct_memcmp                                                      26   0.03%  
+│   │   │   │       └── memory_buffer_alloc.c                                                     700   0.90%  - 
+│   │   │   │           ├── buffer_alloc_calloc                                                   244   0.31%  
+│   │   │   │           ├── buffer_alloc_free                                                     232   0.30%  
+│   │   │   │           ├── mbedtls_memory_buffer_alloc_init                                      100   0.13%  
+│   │   │   │           ├── verify_chain                                                           60   0.08%  
+│   │   │   │           └── verify_header                                                          64   0.08%  
+│   │   │   └── oberon-psa-crypto                                                               12624  16.29%  - 
+│   │   │       ├── include                                                                        66   0.09%  - 
+│   │   │       │   └── psa                                                                        66   0.09%  - 
+│   │   │       │       └── crypto_struct.h                                                        66   0.09%  - 
+│   │   │       │           ├── psa_extend_key_usage_flags                                         26   0.03%  
+│   │   │       │           ├── psa_set_key_usage_flags                                            20   0.03%  
+│   │   │       │           └── psa_set_key_usage_flags.constprop.0                                20   0.03%  
+│   │   │       └── library                                                                     12558  16.20%  - 
+│   │   │           ├── platform.c                                                                 68   0.09%  - 
+│   │   │           │   ├── mbedtls_calloc                                                         12   0.02%  
+│   │   │           │   ├── mbedtls_calloc_func                                                     4   0.01%  
+│   │   │           │   ├── mbedtls_free                                                           12   0.02%  
+│   │   │           │   ├── mbedtls_free_func                                                       4   0.01%  
+│   │   │           │   ├── mbedtls_platform_set_calloc_free                                       20   0.03%  
+│   │   │           │   ├── mbedtls_platform_set_printf                                            12   0.02%  
+│   │   │           │   └── platform_calloc_uninit                                                  4   0.01%  
+│   │   │           ├── platform_util.c                                                            48   0.06%  - 
+│   │   │           │   ├── mbedtls_platform_zeroize                                               24   0.03%  
+│   │   │           │   ├── mbedtls_zeroize_and_free                                               20   0.03%  
+│   │   │           │   └── memset_func                                                             4   0.01%  
+│   │   │           ├── psa_crypto.c                                                            10482  13.52%  - 
+│   │   │           │   ├── key_type_is_raw_bytes                                                  24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_aead_abort                                             30   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_aead_decrypt                                          144   0.19%  
+│   │   │           │   ├── mbedcrypto__psa_aead_decrypt_setup                                     24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_aead_encrypt                                          144   0.19%  
+│   │   │           │   ├── mbedcrypto__psa_aead_encrypt_setup                                     24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_aead_finish                                           100   0.13%  
+│   │   │           │   ├── mbedcrypto__psa_aead_generate_nonce                                   182   0.23%  
+│   │   │           │   ├── mbedcrypto__psa_aead_set_lengths                                       56   0.07%  
+│   │   │           │   ├── mbedcrypto__psa_aead_set_nonce                                         68   0.09%  
+│   │   │           │   ├── mbedcrypto__psa_aead_update                                            88   0.11%  
+│   │   │           │   ├── mbedcrypto__psa_aead_update_ad                                         72   0.09%  
+│   │   │           │   ├── mbedcrypto__psa_aead_verify                                            72   0.09%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_abort                                           28   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_decrypt                                        312   0.40%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_decrypt_setup                                   24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_encrypt                                        324   0.42%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_encrypt_setup                                   24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_finish                                          56   0.07%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_generate_iv                                    134   0.17%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_set_iv                                          60   0.08%  
+│   │   │           │   ├── mbedcrypto__psa_cipher_update                                          52   0.07%  
+│   │   │           │   ├── mbedcrypto__psa_copy_key                                              348   0.45%  
+│   │   │           │   ├── mbedcrypto__psa_crypto_init                                           124   0.16%  
+│   │   │           │   ├── mbedcrypto__psa_destroy_key                                           116   0.15%  
+│   │   │           │   ├── mbedcrypto__psa_export_key                                             78   0.10%  
+│   │   │           │   ├── mbedcrypto__psa_export_public_key                                      96   0.12%  
+│   │   │           │   ├── mbedcrypto__psa_generate_key                                          444   0.57%  
+│   │   │           │   ├── mbedcrypto__psa_generate_random                                        36   0.05%  
+│   │   │           │   ├── mbedcrypto__psa_get_key_attributes                                     60   0.08%  
+│   │   │           │   ├── mbedcrypto__psa_hash_abort                                             22   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_hash_clone                                             36   0.05%  
+│   │   │           │   ├── mbedcrypto__psa_hash_compare                                           82   0.11%  
+│   │   │           │   ├── mbedcrypto__psa_hash_compute                                           34   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_hash_finish                                            34   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_hash_setup                                             64   0.08%  
+│   │   │           │   ├── mbedcrypto__psa_hash_update                                            40   0.05%  
+│   │   │           │   ├── mbedcrypto__psa_hash_verify                                            88   0.11%  
+│   │   │           │   ├── mbedcrypto__psa_import_key                                            364   0.47%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_abort                                   28   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_get_capacity                            18   0.02%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_input_bytes                             18   0.02%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_input_integer                          100   0.13%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_input_key                              132   0.17%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_key_agreement                          188   0.24%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_output_bytes                            44   0.06%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_output_key                             306   0.39%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_set_capacity                            34   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_key_derivation_setup                                  172   0.22%  
+│   │   │           │   ├── mbedcrypto__psa_mac_abort                                              34   0.04%  
+│   │   │           │   ├── mbedcrypto__psa_mac_compute                                            42   0.05%  
+│   │   │           │   ├── mbedcrypto__psa_mac_sign_finish                                       110   0.14%  
+│   │   │           │   ├── mbedcrypto__psa_mac_sign_setup                                         24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_mac_update                                             40   0.05%  
+│   │   │           │   ├── mbedcrypto__psa_mac_verify                                             84   0.11%  
+│   │   │           │   ├── mbedcrypto__psa_mac_verify_finish                                      64   0.08%  
+│   │   │           │   ├── mbedcrypto__psa_mac_verify_setup                                       24   0.03%  
+│   │   │           │   ├── mbedcrypto__psa_raw_key_agreement                                     122   0.16%  
+│   │   │           │   ├── mbedtls_psa_crypto_free                                                84   0.11%  
+│   │   │           │   ├── psa_aead_check_algorithm                                              164   0.21%  
+│   │   │           │   ├── psa_aead_check_nonce_length                                            68   0.09%  
+│   │   │           │   ├── psa_aead_final_checks                                                  48   0.06%  
+│   │   │           │   ├── psa_aead_setup                                                        292   0.38%  
+│   │   │           │   ├── psa_allocate_buffer_to_slot                                            38   0.05%  
+│   │   │           │   ├── psa_cipher_setup                                                      308   0.40%  
+│   │   │           │   ├── psa_copy_key_material_into_slot                                        32   0.04%  
+│   │   │           │   ├── psa_export_key_internal                                                94   0.12%  
+│   │   │           │   ├── psa_finish_key_creation.constprop.0                                    72   0.09%  
+│   │   │           │   ├── psa_generate_key_internal                                              30   0.04%  
+│   │   │           │   ├── psa_get_and_lock_key_slot_with_policy                                 232   0.30%  
+│   │   │           │   ├── psa_get_and_lock_transparent_key_slot_with_policy                      52   0.07%  
+│   │   │           │   ├── psa_import_key_into_slot                                               58   0.07%  
+│   │   │           │   ├── psa_key_algorithm_permits                                             504   0.65%  
+│   │   │           │   ├── psa_key_derivation_check_state                                        236   0.30%  
+│   │   │           │   ├── psa_key_derivation_input_internal                                     224   0.29%  
+│   │   │           │   ├── psa_key_derivation_output_bytes_internal                               64   0.08%  
+│   │   │           │   ├── psa_key_policy_algorithm_intersection                                1068   1.38%  
+│   │   │           │   ├── psa_mac_compute_internal                                              156   0.20%  
+│   │   │           │   ├── psa_mac_finalize_alg_and_key_validation.isra.0                        224   0.29%  
+│   │   │           │   ├── psa_mac_key_can_do                                                     64   0.08%  
+│   │   │           │   ├── psa_mac_setup                                                         146   0.19%  
+│   │   │           │   ├── psa_remove_key_data_from_memory                                        22   0.03%  
+│   │   │           │   ├── psa_start_key_creation.constprop.0                                    154   0.20%  
+│   │   │           │   ├── psa_validate_ecc_key_attr                                             184   0.24%  
+│   │   │           │   ├── psa_validate_unstructured_key_bit_size                                 94   0.12%  
+│   │   │           │   ├── psa_wipe_key_slot                                                      58   0.07%  
+│   │   │           │   └── psa_wipe_tag_output_buffer                                             20   0.03%  
+│   │   │           ├── psa_crypto_client.c                                                         8   0.01%  - 
+│   │   │           │   └── mbedcrypto__psa_reset_key_attributes                                    8   0.01%  
+│   │   │           ├── psa_crypto_slot_management.c                                             1050   1.35%  - 
+│   │   │           │   ├── mbedcrypto__psa_close_key                                              66   0.09%  
+│   │   │           │   ├── mbedcrypto__psa_open_key                                               66   0.09%  
+│   │   │           │   ├── mbedcrypto__psa_purge_key                                              58   0.07%  
+│   │   │           │   ├── psa_get_and_lock_key_slot                                             420   0.54%  
+│   │   │           │   ├── psa_get_and_lock_key_slot_in_memory                                   136   0.18%  
+│   │   │           │   ├── psa_initialize_key_slots                                               16   0.02%  
+│   │   │           │   ├── psa_is_valid_key_id                                                    44   0.06%  
+│   │   │           │   ├── psa_reserve_free_key_slot                                             132   0.17%  
+│   │   │           │   ├── psa_unregister_read                                                    42   0.05%  
+│   │   │           │   ├── psa_unregister_read_under_mutex                                         4   0.01%  
+│   │   │           │   ├── psa_validate_key_location                                               4   0.01%  
+│   │   │           │   ├── psa_validate_key_persistence                                           14   0.02%  
+│   │   │           │   └── psa_wipe_all_key_slots                                                 48   0.06%  
+│   │   │           ├── psa_crypto_slot_management.h                                               26   0.03%  - 
+│   │   │           │   └── psa_register_read                                                      26   0.03%  
+│   │   │           └── psa_crypto_storage.c                                                      876   1.13%  - 
+│   │   │               ├── psa_destroy_persistent_key                                             66   0.09%  
+│   │   │               ├── psa_format_key_data_for_storage                                       184   0.24%  
+│   │   │               ├── psa_free_persistent_key_data                                            4   0.01%  
+│   │   │               ├── psa_is_key_present_in_storage                                          30   0.04%  
+│   │   │               ├── psa_load_persistent_key                                               168   0.22%  
+│   │   │               ├── psa_parse_key_data_from_storage                                       252   0.33%  
+│   │   │               └── psa_save_persistent_key                                               172   0.22%  
+│   │   ├── hal                                                                                  4148   5.35%  - 
+│   │   │   └── nordic                                                                           4148   5.35%  - 
+│   │   │       └── nrfx                                                                         4148   5.35%  - 
+│   │   │           ├── drivers                                                                  3604   4.65%  - 
+│   │   │           │   └── src                                                                  3604   4.65%  - 
+│   │   │           │       ├── nrfx_rramc.c                                                      252   0.33%  - 
+│   │   │           │       │   ├── nrfx_rramc_init                                                44   0.06%  
+│   │   │           │       │   ├── nrfx_rramc_words_write                                         80   0.10%  
+│   │   │           │       │   └── rramc_configure                                               128   0.17%  
+│   │   │           │       └── nrfx_uarte.c                                                     3352   4.32%  - 
+│   │   │           │           ├── blocking_tx                                                   440   0.57%  
+│   │   │           │           ├── disable_hw_from_rx                                             36   0.05%  
+│   │   │           │           ├── disable_hw_from_tx                                             22   0.03%  
+│   │   │           │           ├── is_tx_ready                                                    26   0.03%  
+│   │   │           │           ├── nrfx_uarte_init                                               316   0.41%  
+│   │   │           │           ├── nrfx_uarte_rx                                                 132   0.17%  
+│   │   │           │           ├── nrfx_uarte_rx_abort                                           336   0.43%  
+│   │   │           │           ├── nrfx_uarte_rx_buffer_set                                      400   0.52%  
+│   │   │           │           ├── nrfx_uarte_rx_enable                                          332   0.43%  
+│   │   │           │           ├── nrfx_uarte_rx_ready                                            84   0.11%  
+│   │   │           │           ├── nrfx_uarte_tx                                                 216   0.28%  
+│   │   │           │           ├── nrfx_uarte_tx_abort                                           184   0.24%  
+│   │   │           │           ├── nrfx_uarte_uninit                                             212   0.27%  
+│   │   │           │           ├── on_rx_disabled                                                100   0.13%  
+│   │   │           │           ├── tx_prepare_start.isra.0                                       126   0.16%  
+│   │   │           │           ├── uarte_configure                                               316   0.41%  
+│   │   │           │           ├── user_handler                                                   34   0.04%  
+│   │   │           │           └── user_handler_on_rx_done                                        40   0.05%  
+│   │   │           ├── hal                                                                       240   0.31%  - 
+│   │   │           │   └── nrf_gpio.h                                                            240   0.31%  - 
+│   │   │           │       ├── nrf_gpio_cfg_default                                               60   0.08%  
+│   │   │           │       ├── nrf_gpio_cfg_input.constprop.0                                     56   0.07%  
+│   │   │           │       ├── nrf_gpio_cfg_output                                                60   0.08%  
+│   │   │           │       ├── nrf_gpio_pin_control_select.constprop.0                            28   0.04%  
+│   │   │           │       └── nrf_gpio_pin_set                                                   36   0.05%  
+│   │   │           ├── haly                                                                       24   0.03%  - 
+│   │   │           │   └── nrfy_rramc.h                                                           24   0.03%  - 
+│   │   │           │       └── __nrfy_internal_rramc_config_set.constprop.0.isra.0                24   0.03%  
+│   │   │           ├── mdk                                                                       248   0.32%  - 
+│   │   │           │   ├── system_nrf54l.c                                                       196   0.25%  - 
+│   │   │           │   │   └── SystemInit                                                        196   0.25%  
+│   │   │           │   └── system_nrf54l_approtect.h                                              52   0.07%  - 
+│   │   │           │       └── nrf54l_handle_approtect_signal                                     52   0.07%  
+│   │   │           └── soc                                                                        32   0.04%  - 
+│   │   │               └── nrfx_coredep.h                                                         32   0.04%  - 
+│   │   │                   └── nrfx_coredep_delay_us.part.0                                       32   0.04%  
+│   │   └── tee                                                                                 27284  35.20%  - 
+│   │       └── tf-m                                                                            27284  35.20%  - 
+│   │           └── trusted-firmware-m                                                          27284  35.20%  - 
+│   │               ├── interface                                                                1146   1.48%  - 
+│   │               │   └── src                                                                  1146   1.48%  - 
+│   │               │       ├── tfm_crypto_api.c                                                  744   0.96%  - 
+│   │               │       │   ├── psa_aead_decrypt                                              156   0.20%  
+│   │               │       │   ├── psa_aead_encrypt                                              156   0.20%  
+│   │               │       │   ├── psa_destroy_key                                                60   0.08%  
+│   │               │       │   ├── psa_key_derivation_abort                                       68   0.09%  
+│   │               │       │   ├── psa_key_derivation_input_bytes                                 80   0.10%  
+│   │               │       │   ├── psa_key_derivation_input_key                                   72   0.09%  
+│   │               │       │   ├── psa_key_derivation_output_key                                  80   0.10%  
+│   │               │       │   └── psa_key_derivation_setup                                       72   0.09%  
+│   │               │       ├── tfm_its_api.c                                                     232   0.30%  - 
+│   │               │       │   ├── psa_its_get                                                    76   0.10%  
+│   │               │       │   ├── psa_its_get_info                                               52   0.07%  
+│   │               │       │   ├── psa_its_remove                                                 44   0.06%  
+│   │               │       │   └── psa_its_set                                                    60   0.08%  
+│   │               │       ├── tfm_platform_api.c                                                104   0.13%  - 
+│   │               │       │   ├── tfm_platform_nv_counter_increment                              48   0.06%  
+│   │               │       │   └── tfm_platform_nv_counter_read                                   56   0.07%  
+│   │               │       └── tfm_psa_call.c                                                     66   0.09%  - 
+│   │               │           └── psa_call                                                       66   0.09%  
+│   │               ├── platform                                                                 6926   8.93%  - 
+│   │               │   └── ext                                                                  6926   8.93%  - 
+│   │               │       ├── cmsis                                                              38   0.05%  - 
+│   │               │       │   └── CMSIS                                                          38   0.05%  - 
+│   │               │       │       └── Core                                                       38   0.05%  - 
+│   │               │       │           └── Include                                                38   0.05%  - 
+│   │               │       │               └── core_cm33.h                                        38   0.05%  - 
+│   │               │       │                   └── NVIC_ClearTargetState.isra.0                   38   0.05%  
+│   │               │       ├── common                                                           2212   2.85%  - 
+│   │               │       │   ├── exception_info.c                                              292   0.38%  - 
+│   │               │       │   │   ├── store_and_dump_context                                    280   0.36%  
+│   │               │       │   │   └── tfm_exception_info_get_context                             12   0.02%  
+│   │               │       │   ├── faults.c                                                      144   0.19%  - 
+│   │               │       │   │   ├── BusFault_Handler                                           28   0.04%  
+│   │               │       │   │   ├── C_HardFault_Handler                                         4   0.01%  
+│   │               │       │   │   ├── HardFault_Handler                                          28   0.04%  
+│   │               │       │   │   ├── MemManage_Handler                                          28   0.04%  
+│   │               │       │   │   ├── SecureFault_Handler                                        28   0.04%  
+│   │               │       │   │   └── UsageFault_Handler                                         28   0.04%  
+│   │               │       │   ├── template                                                     1596   2.06%  - 
+│   │               │       │   │   ├── flash_otp_nv_counters_backend.c                          1122   1.45%  - 
+│   │               │       │   │   │   ├── copy_flash_region                                     120   0.15%  
+│   │               │       │   │   │   ├── data_width_byte                                        12   0.02%  
+│   │               │       │   │   │   ├── erase_flash_region                                     60   0.08%  
+│   │               │       │   │   │   ├── init_otp_nv_counters_flash                            340   0.44%  
+│   │               │       │   │   │   ├── make_backup                                            38   0.05%  
+│   │               │       │   │   │   ├── read_otp_nv_counters_flash                            124   0.16%  
+│   │               │       │   │   │   └── write_otp_nv_counters_flash                           428   0.55%  
+│   │               │       │   │   ├── nv_counters.c                                             216   0.28%  - 
+│   │               │       │   │   │   ├── set_nv_counter_flash                                   62   0.08%  
+│   │               │       │   │   │   ├── tfm_plat_increment_nv_counter                          38   0.05%  
+│   │               │       │   │   │   ├── tfm_plat_init_nv_counter                                4   0.01%  
+│   │               │       │   │   │   ├── tfm_plat_read_nv_counter                               56   0.07%  
+│   │               │       │   │   │   └── tfm_plat_set_nv_counter                                56   0.07%  
+│   │               │       │   │   └── otp_flash.c                                               258   0.33%  - 
+│   │               │       │   │       ├── tfm_plat_otp_get_size                                  52   0.07%  
+│   │               │       │   │       ├── tfm_plat_otp_init                                       4   0.01%  
+│   │               │       │   │       ├── tfm_plat_otp_read                                     158   0.20%  
+│   │               │       │   │       └── write_to_output                                        44   0.06%  
+│   │               │       │   ├── tfm_hal_its.c                                                  28   0.04%  - 
+│   │               │       │   │   └── tfm_hal_its_fs_info                                        28   0.04%  
+│   │               │       │   ├── tfm_hal_ps.c                                                   28   0.04%  - 
+│   │               │       │   │   └── tfm_hal_ps_fs_info                                         28   0.04%  
+│   │               │       │   ├── tfm_hal_sp_logdev_periph.c                                      8   0.01%  - 
+│   │               │       │   │   ├── tfm_hal_output_sp_log                                       4   0.01%  
+│   │               │       │   │   └── tfm_output_unpriv_string                                    4   0.01%  
+│   │               │       │   ├── tfm_hal_spm_logdev_peripheral.c                                 4   0.01%  - 
+│   │               │       │   │   └── tfm_hal_output_spm_log                                      4   0.01%  
+│   │               │       │   └── uart_stdout.c                                                 112   0.14%  - 
+│   │               │       │       ├── stdio_init                                                 48   0.06%  
+│   │               │       │       └── stdio_output_string                                        64   0.08%  
+│   │               │       └── target                                                           4676   6.03%  - 
+│   │               │           └── nordic_nrf                                                   4676   6.03%  - 
+│   │               │               └── common                                                   4676   6.03%  - 
+│   │               │                   └── core                                                 4676   6.03%  - 
+│   │               │                       ├── cmsis_drivers                                    1292   1.67%  - 
+│   │               │                       │   ├── Driver_Flash.c                                280   0.36%  - 
+│   │               │                       │   │   ├── ARM_Flash_EraseSector                       4   0.01%  
+│   │               │                       │   │   ├── ARM_Flash_GetCapabilities                   4   0.01%  
+│   │               │                       │   │   ├── ARM_Flash_GetInfo                           8   0.01%  
+│   │               │                       │   │   ├── ARM_Flash_Initialize                       72   0.09%  
+│   │               │                       │   │   ├── ARM_Flash_ProgramData                      72   0.09%  
+│   │               │                       │   │   ├── ARM_Flash_ReadData                         48   0.06%  
+│   │               │                       │   │   ├── ARM_Flash_Unitialize                        4   0.01%  
+│   │               │                       │   │   ├── Driver_FLASH0                              44   0.06%  
+│   │               │                       │   │   └── FlashInfo                                  24   0.03%  
+│   │               │                       │   └── Driver_USART.c                               1012   1.31%  - 
+│   │               │                       │       ├── ARM_USART30_Control                       404   0.52%  
+│   │               │                       │       ├── ARM_USART30_GetRxCount                     12   0.02%  
+│   │               │                       │       ├── ARM_USART30_GetTxCount                     12   0.02%  
+│   │               │                       │       ├── ARM_USART30_Initialize                    116   0.15%  
+│   │               │                       │       ├── ARM_USART30_PowerControl                   12   0.02%  
+│   │               │                       │       ├── ARM_USART30_Receive                        60   0.08%  
+│   │               │                       │       ├── ARM_USART30_Send                            4   0.01%  
+│   │               │                       │       ├── ARM_USART30_Uninitialize                   24   0.03%  
+│   │               │                       │       ├── ARM_USART_GetCapabilities                   4   0.01%  
+│   │               │                       │       ├── ARM_USART_GetModemStatus                   12   0.02%  
+│   │               │                       │       ├── ARM_USART_GetStatus                        12   0.02%  
+│   │               │                       │       ├── ARM_USART_GetVersion                       32   0.04%  
+│   │               │                       │       ├── ARM_USART_SetModemControl                   6   0.01%  
+│   │               │                       │       ├── ARM_USART_Transfer                          6   0.01%  
+│   │               │                       │       ├── ARM_USARTx_Send.constprop.0               120   0.15%  
+│   │               │                       │       ├── DriverVersion                               4   0.01%  
+│   │               │                       │       ├── Driver_USART30                             56   0.07%  
+│   │               │                       │       ├── UART30_Resources                           40   0.05%  
+│   │               │                       │       ├── UART30_pins                                16   0.02%  
+│   │               │                       │       └── uart_config_set_uart_pins                  60   0.08%  
+│   │               │                       ├── faults.c                                          276   0.36%  - 
+│   │               │                       │   ├── MPC00_IRQHandler                               48   0.06%  
+│   │               │                       │   ├── MPC_Handler                                    48   0.06%  
+│   │               │                       │   ├── SPU00_IRQHandler                               28   0.04%  
+│   │               │                       │   ├── SPU10_IRQHandler                               28   0.04%  
+│   │               │                       │   ├── SPU20_IRQHandler                               28   0.04%  
+│   │               │                       │   ├── SPU30_IRQHandler                               28   0.04%  
+│   │               │                       │   └── SPU_Handler                                    68   0.09%  
+│   │               │                       ├── native_drivers                                    570   0.74%  - 
+│   │               │                       │   ├── mpu_armv8m_drv.c                              212   0.27%  - 
+│   │               │                       │   │   ├── mpu_armv8m_clean                           34   0.04%  
+│   │               │                       │   │   ├── mpu_armv8m_enable                          52   0.07%  
+│   │               │                       │   │   ├── mpu_armv8m_region_disable                  20   0.03%  
+│   │               │                       │   │   └── mpu_armv8m_region_enable                  106   0.14%  
+│   │               │                       │   ├── spu.c                                         326   0.42%  - 
+│   │               │                       │   │   ├── mpc_clear_events                           20   0.03%  
+│   │               │                       │   │   ├── mpc_enable_interrupts                      16   0.02%  
+│   │               │                       │   │   ├── mpc_events_get                             20   0.03%  
+│   │               │                       │   │   ├── spu_clear_events                           60   0.08%  
+│   │               │                       │   │   ├── spu_enable_interrupts                      40   0.05%  
+│   │               │                       │   │   ├── spu_events_get                             68   0.09%  
+│   │               │                       │   │   ├── spu_get_peri_addr                          44   0.06%  
+│   │               │                       │   │   └── spu_peripheral_config_secure               58   0.07%  
+│   │               │                       │   └── spu.h                                          32   0.04%  - 
+│   │               │                       │       ├── spu_instances                              16   0.02%  
+│   │               │                       │       └── spu_instances                              16   0.02%  
+│   │               │                       ├── nrf_exception_info.c                               84   0.11%  - 
+│   │               │                       │   ├── nrf_exception_info_get_context                 12   0.02%  
+│   │               │                       │   └── nrf_exception_info_store_context               72   0.09%  
+│   │               │                       ├── nrfx_glue.c                                        36   0.05%  - 
+│   │               │                       │   ├── nrfx_critical_section_enter                    16   0.02%  
+│   │               │                       │   └── nrfx_critical_section_exit                     20   0.03%  
+│   │               │                       ├── services                                          176   0.23%  - 
+│   │               │                       │   └── src                                           176   0.23%  - 
+│   │               │                       │       └── tfm_platform_hal_ioctl.c                  176   0.23%  - 
+│   │               │                       │           ├── tfm_platform_hal_read_service          92   0.12%  
+│   │               │                       │           └── tfm_platform_hal_write32_service       84   0.11%  
+│   │               │                       ├── startup.c                                         168   0.22%  - 
+│   │               │                       │   ├── Reset_Handler                                 164   0.21%  
+│   │               │                       │   └── default_irq_handler                             4   0.01%  
+│   │               │                       ├── startup_nrf54l15.c                                 28   0.04%  - 
+│   │               │                       │   └── default_tfm_IRQHandler                         28   0.04%  
+│   │               │                       ├── target_cfg.c                                      906   1.17%  - 
+│   │               │                       │   ├── enable_fault_handlers                          20   0.03%  
+│   │               │                       │   ├── init_debug                                      4   0.01%  
+│   │               │                       │   ├── init_mpc_region_override                       32   0.04%  
+│   │               │                       │   ├── memory_regions                                 20   0.03%  
+│   │               │                       │   ├── mpc_configure_override.constprop.0             70   0.09%  
+│   │               │                       │   ├── nrf_mpc_init_cfg                              100   0.13%  
+│   │               │                       │   ├── nvic_interrupt_enable                          80   0.10%  
+│   │               │                       │   ├── nvic_interrupt_target_state_cfg                80   0.10%  
+│   │               │                       │   ├── sau_and_idau_cfg                              108   0.14%  
+│   │               │                       │   ├── spu_periph_init_cfg                           360   0.46%  
+│   │               │                       │   ├── system_reset_cfg                               24   0.03%  
+│   │               │                       │   └── tfm_peripheral_uarte30                          8   0.01%  
+│   │               │                       ├── tfm_hal_isolation.c                               586   0.76%  - 
+│   │               │                       │   ├── dev_mpu_s                                       4   0.01%  
+│   │               │                       │   ├── mpu_init_cfg                                  284   0.37%  
+│   │               │                       │   ├── tfm_hal_activate_boundary                      28   0.04%  
+│   │               │                       │   ├── tfm_hal_bind_boundary                         108   0.14%  
+│   │               │                       │   ├── tfm_hal_boundary_need_switch                   26   0.03%  
+│   │               │                       │   ├── tfm_hal_memory_check                           94   0.12%  
+│   │               │                       │   └── tfm_hal_set_up_static_boundaries               42   0.05%  
+│   │               │                       ├── tfm_hal_its_encryption_cracen.c                   464   0.60%  - 
+│   │               │                       │   ├── tfm_hal_its_aead_decrypt                       36   0.05%  
+│   │               │                       │   ├── tfm_hal_its_aead_encrypt                       36   0.05%  
+│   │               │                       │   ├── tfm_hal_its_aead_generate_nonce                88   0.11%  
+│   │               │                       │   └── tfm_hal_its_get_aead                          304   0.39%  
+│   │               │                       └── tfm_hal_platform_common.c                          90   0.12%  - 
+│   │               │                           ├── tfm_hal_get_ns_MSP                             12   0.02%  
+│   │               │                           ├── tfm_hal_get_ns_VTOR                            12   0.02%  
+│   │               │                           ├── tfm_hal_get_ns_entry_point                     12   0.02%  
+│   │               │                           └── tfm_hal_platform_common_init                   54   0.07%  
+│   │               └── secure_fw                                                               19212  24.78%  - 
+│   │                   ├── partitions                                                          14064  18.14%  - 
+│   │                   │   ├── crypto                                                           3538   4.56%  - 
+│   │                   │   │   ├── crypto_aead.c                                                 528   0.68%  - 
+│   │                   │   │   │   └── tfm_crypto_aead_interface                                 528   0.68%  
+│   │                   │   │   ├── crypto_alloc.c                                                308   0.40%  - 
+│   │                   │   │   │   ├── tfm_crypto_init_alloc                                      24   0.03%  
+│   │                   │   │   │   ├── tfm_crypto_operation_alloc                                104   0.13%  
+│   │                   │   │   │   ├── tfm_crypto_operation_lookup                                88   0.11%  
+│   │                   │   │   │   └── tfm_crypto_operation_release                               92   0.12%  
+│   │                   │   │   ├── crypto_asymmetric.c                                             6   0.01%  - 
+│   │                   │   │   │   └── tfm_crypto_asymmetric_sign_interface                        6   0.01%  
+│   │                   │   │   ├── crypto_cipher.c                                               424   0.55%  - 
+│   │                   │   │   │   └── tfm_crypto_cipher_interface                               424   0.55%  
+│   │                   │   │   ├── crypto_hash.c                                                 386   0.50%  - 
+│   │                   │   │   │   └── tfm_crypto_hash_interface                                 386   0.50%  
+│   │                   │   │   ├── crypto_init.c                                                 660   0.85%  - 
+│   │                   │   │   │   ├── tfm_crypto_api_dispatcher                                 188   0.24%  
+│   │                   │   │   │   ├── tfm_crypto_clear_scratch                                   36   0.05%  
+│   │                   │   │   │   ├── tfm_crypto_get_caller_id                                   16   0.02%  
+│   │                   │   │   │   ├── tfm_crypto_init                                            28   0.04%  
+│   │                   │   │   │   └── tfm_crypto_sfn                                            392   0.51%  
+│   │                   │   │   ├── crypto_key_derivation.c                                       392   0.51%  - 
+│   │                   │   │   │   └── tfm_crypto_key_derivation_interface                       392   0.51%  
+│   │                   │   │   ├── crypto_key_management.c                                       374   0.48%  - 
+│   │                   │   │   │   └── tfm_crypto_key_management_interface                       374   0.48%  
+│   │                   │   │   ├── crypto_library.c                                               70   0.09%  - 
+│   │                   │   │   │   ├── tfm_crypto_core_library_init                               32   0.04%  
+│   │                   │   │   │   ├── tfm_crypto_library_get_info                                28   0.04%  
+│   │                   │   │   │   ├── tfm_crypto_library_get_library_key_id_set_owner             4   0.01%  
+│   │                   │   │   │   └── tfm_crypto_library_key_id_init                              6   0.01%  
+│   │                   │   │   ├── crypto_mac.c                                                  376   0.49%  - 
+│   │                   │   │   │   └── tfm_crypto_mac_interface                                  376   0.49%  
+│   │                   │   │   ├── crypto_pake.c                                                   6   0.01%  - 
+│   │                   │   │   │   └── tfm_crypto_pake_interface                                   6   0.01%  
+│   │                   │   │   └── crypto_rng.c                                                    8   0.01%  - 
+│   │                   │   │       └── tfm_crypto_random_interface                                 8   0.01%  
+│   │                   │   ├── internal_trusted_storage                                         5638   7.27%  - 
+│   │                   │   │   ├── flash                                                         350   0.45%  - 
+│   │                   │   │   │   └── its_flash_nor.c                                           350   0.45%  - 
+│   │                   │   │   │       ├── data_width_byte                                        12   0.02%  
+│   │                   │   │   │       ├── its_flash_nor_erase                                    46   0.06%  
+│   │                   │   │   │       ├── its_flash_nor_flush                                     4   0.01%  
+│   │                   │   │   │       ├── its_flash_nor_init                                     20   0.03%  
+│   │                   │   │   │       ├── its_flash_nor_read                                    200   0.26%  
+│   │                   │   │   │       └── its_flash_nor_write                                    68   0.09%  
+│   │                   │   │   ├── flash_fs                                                     3632   4.69%  - 
+│   │                   │   │   │   ├── its_flash_fs.c                                           1082   1.40%  - 
+│   │                   │   │   │   │   ├── its_flash_fs_delete_idx                               230   0.30%  
+│   │                   │   │   │   │   ├── its_flash_fs_file_delete                               32   0.04%  
+│   │                   │   │   │   │   ├── its_flash_fs_file_get_info                             68   0.09%  
+│   │                   │   │   │   │   ├── its_flash_fs_file_read                                 66   0.09%  
+│   │                   │   │   │   │   ├── its_flash_fs_file_write                               530   0.68%  
+│   │                   │   │   │   │   ├── its_flash_fs_init_ctx                                 100   0.13%  
+│   │                   │   │   │   │   ├── its_flash_fs_prepare                                   52   0.07%  
+│   │                   │   │   │   │   └── its_flash_fs_wipe_all                                   4   0.01%  
+│   │                   │   │   │   ├── its_flash_fs_dblock.c                                     366   0.47%  - 
+│   │                   │   │   │   │   ├── its_flash_fs_dblock_compact_block                     170   0.22%  
+│   │                   │   │   │   │   ├── its_flash_fs_dblock_read_file                          66   0.09%  
+│   │                   │   │   │   │   └── its_flash_fs_dblock_write_file                        130   0.17%  
+│   │                   │   │   │   └── its_flash_fs_mblock.c                                    2184   2.82%  - 
+│   │                   │   │   │       ├── its_flash_fs_block_to_block_move                       92   0.12%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_cp_file_meta                       46   0.06%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_cur_data_scratch_id                10   0.01%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_get_file_idx_flag                  60   0.08%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_get_file_idx_meta                 102   0.13%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_init                              184   0.24%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_meta_update_finalize               42   0.05%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_migrate_lb0_data_to_scratch        46   0.06%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_read_block_metadata                88   0.11%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_read_block_metadata_comp          102   0.13%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_read_file_meta                    126   0.16%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_reserve_file                      188   0.24%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_reset_metablock                   304   0.39%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_set_data_scratch                    6   0.01%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_update_scratch_block_meta         136   0.18%  
+│   │                   │   │   │       ├── its_flash_fs_mblock_update_scratch_file_meta           36   0.05%  
+│   │                   │   │   │       ├── its_init_get_active_metablock                         190   0.25%  
+│   │                   │   │   │       ├── its_mblock_calculate_metadata_xor.part.0              166   0.21%  
+│   │                   │   │   │       ├── its_mblock_erase_scratch_blocks                        40   0.05%  
+│   │                   │   │   │       ├── its_mblock_file_meta_offset.isra.0                     22   0.03%  
+│   │                   │   │   │       ├── its_mblock_update_scratch_block_meta                   26   0.03%  
+│   │                   │   │   │       ├── its_mblock_validate_header_meta                        92   0.12%  
+│   │                   │   │   │       ├── its_mblock_write_scratch_meta_header                   68   0.09%  
+│   │                   │   │   │       └── its_num_dedicated_dblocks.isra.0                       12   0.02%  
+│   │                   │   │   ├── its_crypto_interface.c                                        242   0.31%  - 
+│   │                   │   │   │   └── tfm_its_crypt_file                                        242   0.31%  
+│   │                   │   │   ├── its_utils.c                                                    50   0.06%  - 
+│   │                   │   │   │   ├── its_utils_check_contained_in                               24   0.03%  
+│   │                   │   │   │   └── its_utils_validate_fid                                     26   0.03%  
+│   │                   │   │   ├── tfm_internal_trusted_storage.c                               1040   1.34%  - 
+│   │                   │   │   │   ├── fs_cfg_its                                                 28   0.04%  
+│   │                   │   │   │   ├── fs_cfg_ps                                                  28   0.04%  
+│   │                   │   │   │   ├── get_file_info                                              96   0.12%  
+│   │                   │   │   │   ├── tfm_its_get                                               276   0.36%  
+│   │                   │   │   │   ├── tfm_its_get_info                                           36   0.05%  
+│   │                   │   │   │   ├── tfm_its_init                                              260   0.34%  
+│   │                   │   │   │   ├── tfm_its_remove                                             68   0.09%  
+│   │                   │   │   │   └── tfm_its_set                                               248   0.32%  
+│   │                   │   │   └── tfm_its_req_mngr.c                                            324   0.42%  - 
+│   │                   │   │       ├── its_req_mngr_read                                          20   0.03%  
+│   │                   │   │       ├── its_req_mngr_write                                         20   0.03%  
+│   │                   │   │       ├── tfm_internal_trusted_storage_service_sfn                  280   0.36%  
+│   │                   │   │       └── tfm_its_entry                                               4   0.01%  
+│   │                   │   ├── lib                                                               852   1.10%  - 
+│   │                   │   │   └── runtime                                                       852   1.10%  - 
+│   │                   │   │       ├── crt_memcmp.c                                               32   0.04%  - 
+│   │                   │   │       │   └── memcmp                                                 32   0.04%  
+│   │                   │   │       ├── psa_api_ipc.c                                             156   0.20%  - 
+│   │                   │   │       │   ├── psa_framework_version                                  16   0.02%  
+│   │                   │   │       │   ├── psa_get                                                16   0.02%  
+│   │                   │   │       │   ├── psa_panic                                              16   0.02%  
+│   │                   │   │       │   ├── psa_read                                               20   0.03%  
+│   │                   │   │       │   ├── psa_reply                                              16   0.02%  
+│   │                   │   │       │   ├── psa_version                                            16   0.02%  
+│   │                   │   │       │   ├── psa_wait                                               16   0.02%  
+│   │                   │   │       │   ├── psa_write                                              20   0.03%  
+│   │                   │   │       │   └── tfm_psa_call_pack                                      20   0.03%  
+│   │                   │   │       ├── sfn_common_thread.c                                       148   0.19%  - 
+│   │                   │   │       │   └── common_sfn_thread                                     148   0.19%  
+│   │                   │   │       └── tfm_sp_log_raw.c                                          516   0.67%  - 
+│   │                   │   │           ├── _tfm_dec_num_output                                    94   0.12%  
+│   │                   │   │           ├── _tfm_flush_formatted_buffer                            28   0.04%  
+│   │                   │   │           ├── _tfm_hex_num_output                                    58   0.07%  
+│   │                   │   │           ├── _tfm_string_output                                     26   0.03%  
+│   │                   │   │           ├── hex_digits_lo                                          16   0.02%  
+│   │                   │   │           ├── hex_digits_up                                          16   0.02%  
+│   │                   │   │           ├── printf                                                 26   0.03%  
+│   │                   │   │           └── vprintf                                               252   0.33%  
+│   │                   │   ├── ns_agent_tz                                                       110   0.14%  - 
+│   │                   │   │   ├── load_info_ns_agent_tz.c                                        56   0.07%  - 
+│   │                   │   │   │   └── tfm_sp_ns_agent_tz_load                                    56   0.07%  
+│   │                   │   │   ├── ns_agent_tz_v80m.c                                             42   0.05%  - 
+│   │                   │   │   │   └── ns_agent_tz_main                                           42   0.05%  
+│   │                   │   │   └── psa_api_veneers_v80m.c                                         12   0.02%  - 
+│   │                   │   │       ├── clear_caller_context                                        8   0.01%  
+│   │                   │   │       └── ret_err                                                     4   0.01%  
+│   │                   │   ├── platform                                                          608   0.78%  - 
+│   │                   │   │   └── platform_sp.c                                                 608   0.78%  - 
+│   │                   │   │       ├── platform_sp_init                                           18   0.02%  
+│   │                   │   │       └── tfm_platform_service_sfn                                  590   0.76%  
+│   │                   │   └── protected_storage                                                3318   4.28%  - 
+│   │                   │       ├── crypto                                                        616   0.79%  - 
+│   │                   │       │   └── ps_crypto_interface.c                                     616   0.79%  - 
+│   │                   │       │       ├── ps_crypto_auth_and_decrypt                             88   0.11%  
+│   │                   │       │       ├── ps_crypto_authenticate                                 68   0.09%  
+│   │                   │       │       ├── ps_crypto_destroykey                                   24   0.03%  
+│   │                   │       │       ├── ps_crypto_encrypt_and_tag                              84   0.11%  
+│   │                   │       │       ├── ps_crypto_generate_auth_tag                            72   0.09%  
+│   │                   │       │       ├── ps_crypto_get_iv                                      112   0.14%  
+│   │                   │       │       ├── ps_crypto_init                                          4   0.01%  
+│   │                   │       │       ├── ps_crypto_set_iv                                       16   0.02%  
+│   │                   │       │       └── ps_crypto_setkey                                      148   0.19%  
+│   │                   │       ├── nv_counters                                                    40   0.05%  - 
+│   │                   │       │   └── ps_nv_counters.c                                           40   0.05%  - 
+│   │                   │       │       ├── ps_increment_nv_counter                                18   0.02%  
+│   │                   │       │       └── ps_read_nv_counter                                     22   0.03%  
+│   │                   │       ├── ps_encrypted_object.c                                         290   0.37%  - 
+│   │                   │       │   ├── ps_encrypted_object_read                                  134   0.17%  
+│   │                   │       │   └── ps_encrypted_object_write                                 156   0.20%  
+│   │                   │       ├── ps_object_system.c                                            620   0.80%  - 
+│   │                   │       │   ├── ps_object_create                                          252   0.33%  
+│   │                   │       │   ├── ps_object_delete                                          112   0.14%  
+│   │                   │       │   ├── ps_object_get_info                                         88   0.11%  
+│   │                   │       │   ├── ps_object_read                                            112   0.14%  
+│   │                   │       │   ├── ps_remove_old_data                                         24   0.03%  
+│   │                   │       │   ├── ps_system_prepare                                          28   0.04%  
+│   │                   │       │   └── ps_system_wipe_all                                          4   0.01%  
+│   │                   │       ├── ps_object_table.c                                            1194   1.54%  - 
+│   │                   │       │   ├── ps_get_object_entry_idx                                    52   0.07%  
+│   │                   │       │   ├── ps_object_table_align_nv_counters                          92   0.12%  
+│   │                   │       │   ├── ps_object_table_authenticate                               86   0.11%  
+│   │                   │       │   ├── ps_object_table_create                                     40   0.05%  
+│   │                   │       │   ├── ps_object_table_delete_object                              76   0.10%  
+│   │                   │       │   ├── ps_object_table_delete_old_table                           20   0.03%  
+│   │                   │       │   ├── ps_object_table_get_free_fid                              100   0.13%  
+│   │                   │       │   ├── ps_object_table_get_obj_tbl_info                           44   0.06%  
+│   │                   │       │   ├── ps_object_table_init                                      336   0.43%  
+│   │                   │       │   ├── ps_object_table_save_table.constprop.0                    160   0.21%  
+│   │                   │       │   ├── ps_object_table_set_obj_tbl_info                          172   0.22%  
+│   │                   │       │   └── ps_table_key_label                                         16   0.02%  
+│   │                   │       ├── tfm_protected_storage.c                                       198   0.26%  - 
+│   │                   │       │   ├── tfm_ps_get                                                 40   0.05%  
+│   │                   │       │   ├── tfm_ps_get_info                                            32   0.04%  
+│   │                   │       │   ├── tfm_ps_get_support                                          4   0.01%  
+│   │                   │       │   ├── tfm_ps_init                                                40   0.05%  
+│   │                   │       │   ├── tfm_ps_remove                                              38   0.05%  
+│   │                   │       │   └── tfm_ps_set                                                 44   0.06%  
+│   │                   │       └── tfm_ps_req_mngr.c                                             360   0.46%  - 
+│   │                   │           ├── ps_req_mngr_read_asset_data                                36   0.05%  
+│   │                   │           ├── ps_req_mngr_write_asset_data                               24   0.03%  
+│   │                   │           ├── tfm_protected_storage_service_sfn                         296   0.38%  
+│   │                   │           └── tfm_ps_entry                                                4   0.01%  
+│   │                   ├── shared                                                                144   0.19%  - 
+│   │                   │   ├── crt_memcpy.c                                                       74   0.10%  - 
+│   │                   │   │   └── memcpy                                                         74   0.10%  
+│   │                   │   └── crt_memset.c                                                       70   0.09%  - 
+│   │                   │       └── memset                                                         70   0.09%  
+│   │                   └── spm                                                                  5004   6.46%  - 
+│   │                       ├── core                                                             4948   6.38%  - 
+│   │                       │   ├── arch                                                          498   0.64%  - 
+│   │                       │   │   ├── tfm_arch.c                                                190   0.25%  - 
+│   │                       │   │   │   ├── arch_acquire_sched_lock                                12   0.02%  
+│   │                       │   │   │   ├── arch_attempt_schedule                                  36   0.05%  
+│   │                       │   │   │   ├── arch_release_sched_lock                                14   0.02%  
+│   │                       │   │   │   ├── tfm_arch_free_msp_and_exc_ret                           8   0.01%  
+│   │                       │   │   │   ├── tfm_arch_init_context                                  92   0.12%  
+│   │                       │   │   │   ├── tfm_arch_refresh_hardware_context                      22   0.03%  
+│   │                       │   │   │   └── tfm_arch_set_context_ret_code                           6   0.01%  
+│   │                       │   │   └── tfm_arch_v8m_main.c                                       308   0.40%  - 
+│   │                       │   │       ├── PendSV_Handler                                         84   0.11%  
+│   │                       │   │       ├── SVC_Handler                                           100   0.13%  
+│   │                       │   │       ├── tfm_arch_config_extensions                              2   0.00%  
+│   │                       │   │       ├── tfm_arch_set_secure_exception_priorities               40   0.05%  
+│   │                       │   │       └── tfm_arch_thread_fn_call                                82   0.11%  
+│   │                       │   ├── backend_ipc.c                                                 770   0.99%  - 
+│   │                       │   │   ├── backend_abi_entering_spm                                   68   0.09%  
+│   │                       │   │   ├── backend_abi_leaving_spm                                    30   0.04%  
+│   │                       │   │   ├── backend_assert_signal                                      44   0.06%  
+│   │                       │   │   ├── backend_init_comp_assuredly                               180   0.23%  
+│   │                       │   │   ├── backend_messaging                                          64   0.08%  
+│   │                       │   │   ├── backend_replying                                           10   0.01%  
+│   │                       │   │   ├── backend_system_run                                         48   0.06%  
+│   │                       │   │   ├── backend_wait_signals                                       32   0.04%  
+│   │                       │   │   ├── comp_init_fns                                               8   0.01%  
+│   │                       │   │   ├── ipc_schedule                                              148   0.19%  
+│   │                       │   │   ├── ns_agent_tz_init                                           44   0.06%  
+│   │                       │   │   ├── partition_init                                             28   0.04%  
+│   │                       │   │   └── query_state                                                66   0.09%  
+│   │                       │   ├── main.c                                                        104   0.13%  - 
+│   │                       │   │   └── main                                                      104   0.13%  
+│   │                       │   ├── psa_api.c                                                     490   0.63%  - 
+│   │                       │   │   ├── spm_handle_programmer_errors                               24   0.03%  
+│   │                       │   │   ├── tfm_spm_get_lifecycle_state                                64   0.08%  
+│   │                       │   │   ├── tfm_spm_partition_psa_get                                 176   0.23%  
+│   │                       │   │   ├── tfm_spm_partition_psa_panic                                12   0.02%  
+│   │                       │   │   ├── tfm_spm_partition_psa_reply                               154   0.20%  
+│   │                       │   │   └── tfm_spm_partition_psa_wait                                 60   0.08%  
+│   │                       │   ├── psa_call_api.c                                                474   0.61%  - 
+│   │                       │   │   ├── spm_associate_call_params                                 396   0.51%  
+│   │                       │   │   └── tfm_spm_client_psa_call                                    78   0.10%  
+│   │                       │   ├── psa_interface_thread_fn_call.c                                176   0.23%  - 
+│   │                       │   │   ├── psa_api_thread_fn_call                                     44   0.06%  
+│   │                       │   │   ├── psa_framework_version_thread_fn_call                       12   0.02%  
+│   │                       │   │   ├── psa_get_thread_fn_call                                     12   0.02%  
+│   │                       │   │   ├── psa_panic_thread_fn_call                                   12   0.02%  
+│   │                       │   │   ├── psa_read_thread_fn_call                                    12   0.02%  
+│   │                       │   │   ├── psa_reply_thread_fn_call                                   12   0.02%  
+│   │                       │   │   ├── psa_rot_lifecycle_state_thread_fn_call                     12   0.02%  
+│   │                       │   │   ├── psa_skip_thread_fn_call                                    12   0.02%  
+│   │                       │   │   ├── psa_version_thread_fn_call                                 12   0.02%  
+│   │                       │   │   ├── psa_wait_thread_fn_call                                    12   0.02%  
+│   │                       │   │   ├── psa_write_thread_fn_call                                   12   0.02%  
+│   │                       │   │   └── tfm_psa_call_pack_thread_fn_call                           12   0.02%  
+│   │                       │   ├── psa_read_write_skip_api.c                                     296   0.38%  - 
+│   │                       │   │   ├── tfm_spm_partition_psa_read                                116   0.15%  
+│   │                       │   │   ├── tfm_spm_partition_psa_skip                                 60   0.08%  
+│   │                       │   │   └── tfm_spm_partition_psa_write                               120   0.15%  
+│   │                       │   ├── psa_version_api.c                                              50   0.06%  - 
+│   │                       │   │   ├── tfm_spm_client_psa_framework_version                        6   0.01%  
+│   │                       │   │   └── tfm_spm_client_psa_version                                 44   0.06%  
+│   │                       │   ├── rom_loader.c                                                  490   0.63%  - 
+│   │                       │   │   ├── ldinf_ea                                                    4   0.01%  
+│   │                       │   │   ├── ldinf_sa                                                    4   0.01%  
+│   │                       │   │   ├── load_a_partition_assuredly                                268   0.35%  
+│   │                       │   │   ├── load_irqs_assuredly                                         2   0.00%  
+│   │                       │   │   ├── load_services_assuredly                                   196   0.25%  
+│   │                       │   │   ├── part_pool_ea                                                4   0.01%  
+│   │                       │   │   ├── part_pool_sa                                                4   0.01%  
+│   │                       │   │   ├── serv_pool_ea                                                4   0.01%  
+│   │                       │   │   └── serv_pool_sa                                                4   0.01%  
+│   │                       │   ├── spm_connection_pool.c                                         148   0.19%  - 
+│   │                       │   │   ├── connection_to_handle                                       32   0.04%  
+│   │                       │   │   ├── handle_to_connection                                       16   0.02%  
+│   │                       │   │   ├── spm_allocate_connection                                    12   0.02%  
+│   │                       │   │   ├── spm_free_connection                                        28   0.04%  
+│   │                       │   │   ├── spm_init_connection_space                                  32   0.04%  
+│   │                       │   │   └── spm_validate_connection                                    28   0.04%  
+│   │                       │   ├── spm_ipc.c                                                     668   0.86%  - 
+│   │                       │   │   ├── spm_get_handle_by_signal                                   74   0.10%  
+│   │                       │   │   ├── spm_get_idle_connection                                   120   0.15%  
+│   │                       │   │   ├── spm_init_idle_connection                                   52   0.07%  
+│   │                       │   │   ├── spm_msg_handle_to_connection                               40   0.05%  
+│   │                       │   │   ├── tfm_spm_check_authorization                                72   0.09%  
+│   │                       │   │   ├── tfm_spm_check_client_version                               36   0.05%  
+│   │                       │   │   ├── tfm_spm_get_client_id                                      32   0.04%  
+│   │                       │   │   ├── tfm_spm_get_service_by_sid                                 44   0.06%  
+│   │                       │   │   ├── tfm_spm_init                                              100   0.13%  
+│   │                       │   │   ├── tfm_spm_is_ns_caller                                       40   0.05%  
+│   │                       │   │   ├── tfm_spm_partition_get_running_partition_id                 28   0.04%  
+│   │                       │   │   └── update_caller_outvec_len                                   30   0.04%  
+│   │                       │   ├── spm_log.c                                                     104   0.13%  - 
+│   │                       │   │   ├── HEX_TABLE                                                  16   0.02%  
+│   │                       │   │   └── spm_log_msgval                                             88   0.11%  
+│   │                       │   ├── tfm_boot_data.c                                                68   0.09%  - 
+│   │                       │   │   ├── tfm_core_get_boot_data_handler                             56   0.07%  
+│   │                       │   │   └── tfm_core_validate_boot_data                                12   0.02%  
+│   │                       │   ├── tfm_pools.c                                                   200   0.26%  - 
+│   │                       │   │   ├── is_valid_chunk_data_in_pool                                56   0.07%  
+│   │                       │   │   ├── tfm_pool_alloc                                             32   0.04%  
+│   │                       │   │   ├── tfm_pool_free                                              20   0.03%  
+│   │                       │   │   └── tfm_pool_init                                              92   0.12%  
+│   │                       │   ├── tfm_svcalls.c                                                 184   0.24%  - 
+│   │                       │   │   └── spm_svc_handler                                           184   0.24%  
+│   │                       │   ├── thread.c                                                      224   0.29%  - 
+│   │                       │   │   ├── thrd_next                                                  76   0.10%  
+│   │                       │   │   ├── thrd_set_query_callback                                    12   0.02%  
+│   │                       │   │   ├── thrd_set_state                                             40   0.05%  
+│   │                       │   │   ├── thrd_start                                                 68   0.09%  
+│   │                       │   │   └── thrd_start_scheduler                                       28   0.04%  
+│   │                       │   └── utilities.c                                                     4   0.01%  - 
+│   │                       │       └── tfm_core_panic                                              4   0.01%  
+│   │                       └── ns_client_ext                                                      56   0.07%  - 
+│   │                           └── tfm_spm_ns_ctx.c                                               56   0.07%  - 
+│   │                               ├── tfm_nspm_ctx_init                                          24   0.03%  
+│   │                               ├── tfm_nspm_get_current_client_id                             20   0.03%  
+│   │                               └── tz_ns_agent_register_client_id_range                       12   0.02%  
+│   └── nrf                                                                                     29216  37.69%  - 
+│       ├── lib                                                                                   380   0.49%  - 
+│       │   └── hw_unique_key                                                                     380   0.49%  - 
+│       │       └── hw_unique_key_cracen_kmu.c                                                    380   0.49%  - 
+│       │           ├── hw_unique_key_are_any_written                                              40   0.05%  
+│       │           ├── hw_unique_key_derive_key                                                  192   0.25%  
+│       │           ├── hw_unique_key_write                                                       108   0.14%  
+│       │           └── hw_unique_key_write_random                                                 40   0.05%  
+│       ├── modules                                                                               566   0.73%  - 
+│       │   └── trusted-firmware-m                                                                566   0.73%  - 
+│       │       └── tfm_boards                                                                    566   0.73%  - 
+│       │           ├── common                                                                    406   0.52%  - 
+│       │           │   ├── dummy_provisioning.c                                                   10   0.01%  - 
+│       │           │   │   ├── tfm_plat_provisioning_check_for_dummy_keys                          2   0.00%  
+│       │           │   │   ├── tfm_plat_provisioning_is_required                                   4   0.01%  
+│       │           │   │   └── tfm_plat_provisioning_perform                                       4   0.01%  
+│       │           │   ├── ns_fault_service.c                                                    240   0.31%  - 
+│       │           │   │   ├── call_ns_callback                                                  168   0.22%  
+│       │           │   │   ├── ns_fault_service_call_handler                                      52   0.07%  
+│       │           │   │   └── ns_fault_service_set_handler                                       20   0.03%  
+│       │           │   ├── tfm_hal_platform.c                                                    144   0.19%  - 
+│       │           │   │   └── tfm_hal_platform_init                                             144   0.19%  
+│       │           │   └── tfm_hal_reset_halt.c                                                   12   0.02%  - 
+│       │           │       └── tfm_hal_system_halt                                                12   0.02%  
+│       │           └── src                                                                       160   0.21%  - 
+│       │               └── tfm_platform_system.c                                                 160   0.21%  - 
+│       │                   ├── tfm_platform_hal_ioctl                                            124   0.16%  
+│       │                   └── tfm_platform_hal_system_reset                                      36   0.05%  
+│       └── subsys                                                                              28270  36.47%  - 
+│           └── nrf_security                                                                    28270  36.47%  - 
+│               └── src                                                                         28270  36.47%  - 
+│                   ├── drivers                                                                 25150  32.44%  - 
+│                   │   └── cracen                                                              25150  32.44%  - 
+│                   │       ├── cracenpsa                                                       17946  23.15%  - 
+│                   │       │   └── src                                                         17946  23.15%  - 
+│                   │       │       ├── aead.c                                                   2026   2.61%  - 
+│                   │       │       │   ├── cracen_aead_abort                                      14   0.02%  
+│                   │       │       │   ├── cracen_aead_decrypt                                   184   0.24%  
+│                   │       │       │   ├── cracen_aead_decrypt_setup                              22   0.03%  
+│                   │       │       │   ├── cracen_aead_encrypt                                   226   0.29%  
+│                   │       │       │   ├── cracen_aead_encrypt_setup                              22   0.03%  
+│                   │       │       │   ├── cracen_aead_finish                                    150   0.19%  
+│                   │       │       │   ├── cracen_aead_set_lengths                                 8   0.01%  
+│                   │       │       │   ├── cracen_aead_set_nonce                                 276   0.36%  
+│                   │       │       │   ├── cracen_aead_update                                     90   0.12%  
+│                   │       │       │   ├── cracen_aead_update_ad                                  24   0.03%  
+│                   │       │       │   ├── cracen_aead_update_internal                           340   0.44%  
+│                   │       │       │   ├── cracen_aead_verify                                    124   0.16%  
+│                   │       │       │   ├── cracen_feed_data_to_hw                                 64   0.08%  
+│                   │       │       │   ├── get_block_size                                         60   0.08%  
+│                   │       │       │   ├── initialize_or_resume_context                          168   0.22%  
+│                   │       │       │   ├── process_on_hw                                          42   0.05%  
+│                   │       │       │   └── setup                                                 212   0.27%  
+│                   │       │       ├── blkcipher.c                                              1622   2.09%  - 
+│                   │       │       │   ├── cracen_cipher_abort                                    24   0.03%  
+│                   │       │       │   ├── cracen_cipher_crypt.constprop.0                        56   0.07%  
+│                   │       │       │   ├── cracen_cipher_crypt_ecb                               110   0.14%  
+│                   │       │       │   ├── cracen_cipher_decrypt                                 220   0.28%  
+│                   │       │       │   ├── cracen_cipher_decrypt_setup                            24   0.03%  
+│                   │       │       │   ├── cracen_cipher_encrypt                                 204   0.26%  
+│                   │       │       │   ├── cracen_cipher_encrypt_setup                            24   0.03%  
+│                   │       │       │   ├── cracen_cipher_finish                                  236   0.30%  
+│                   │       │       │   ├── cracen_cipher_set_iv                                   48   0.06%  
+│                   │       │       │   ├── cracen_cipher_update                                  516   0.67%  
+│                   │       │       │   ├── initialize_cipher                                      60   0.08%  
+│                   │       │       │   └── operation_setup                                       100   0.13%  
+│                   │       │       ├── common.c                                                  724   0.93%  - 
+│                   │       │       │   ├── cracen_clean_ik_key                                     4   0.01%  
+│                   │       │       │   ├── cracen_get_opaque_size                                132   0.17%  
+│                   │       │       │   ├── cracen_load_keyref                                    232   0.30%  
+│                   │       │       │   ├── cracen_prepare_ik_key                                  76   0.10%  
+│                   │       │       │   ├── hash_get_algo                                          92   0.12%  
+│                   │       │       │   └── silex_statuscodes_to_psa                              188   0.24%  
+│                   │       │       ├── cracen.c                                                  272   0.35%  - 
+│                   │       │       │   ├── cracen_acquire                                         68   0.09%  
+│                   │       │       │   ├── cracen_init                                            92   0.12%  
+│                   │       │       │   └── cracen_release                                        112   0.14%  
+│                   │       │       ├── ctr_drbg.c                                                578   0.75%  - 
+│                   │       │       │   ├── cracen_free_random                                      4   0.01%  
+│                   │       │       │   ├── cracen_get_random                                     276   0.36%  
+│                   │       │       │   ├── cracen_init_random                                    112   0.14%  
+│                   │       │       │   ├── ctr_drbg_update                                       128   0.17%  
+│                   │       │       │   └── trng_get_seed.constprop.0                              58   0.07%  
+│                   │       │       ├── hash.c                                                    568   0.73%  - 
+│                   │       │       │   ├── cracen_hash_compute                                   126   0.16%  
+│                   │       │       │   ├── cracen_hash_finish                                    132   0.17%  
+│                   │       │       │   ├── cracen_hash_setup                                      44   0.06%  
+│                   │       │       │   ├── cracen_hash_update                                    228   0.29%  
+│                   │       │       │   └── init_or_resume_context                                 38   0.05%  
+│                   │       │       ├── key_derivation.c                                         1704   2.20%  - 
+│                   │       │       │   ├── cracen_key_derivation_abort                            40   0.05%  
+│                   │       │       │   ├── cracen_key_derivation_cmac_ctr_add_core_fixed_input    72   0.09%  
+│                   │       │       │   ├── cracen_key_derivation_cmac_ctr_generate_block         126   0.16%  
+│                   │       │       │   ├── cracen_key_derivation_hkdf_generate_block             188   0.24%  
+│                   │       │       │   ├── cracen_key_derivation_input_bytes                     228   0.29%  
+│                   │       │       │   ├── cracen_key_derivation_input_bytes_hkdf                284   0.37%  
+│                   │       │       │   ├── cracen_key_derivation_input_integer                     6   0.01%  
+│                   │       │       │   ├── cracen_key_derivation_input_key                       122   0.16%  
+│                   │       │       │   ├── cracen_key_derivation_output_bytes                    332   0.43%  
+│                   │       │       │   ├── cracen_key_derivation_set_capacity                     42   0.05%  
+│                   │       │       │   ├── cracen_key_derivation_setup                           156   0.20%  
+│                   │       │       │   └── start_mac_operation                                   108   0.14%  
+│                   │       │       ├── key_management.c                                          996   1.28%  - 
+│                   │       │       │   ├── cracen_copy_key                                       168   0.22%  
+│                   │       │       │   ├── cracen_destroy_key                                      4   0.01%  
+│                   │       │       │   ├── cracen_export_key                                     168   0.22%  
+│                   │       │       │   ├── cracen_export_public_key                               60   0.08%  
+│                   │       │       │   ├── cracen_generate_key                                    80   0.10%  
+│                   │       │       │   ├── cracen_get_builtin_key                                176   0.23%  
+│                   │       │       │   ├── cracen_import_key                                     180   0.23%  
+│                   │       │       │   ├── generate_key_for_kmu                                   80   0.10%  
+│                   │       │       │   └── mbedtls_psa_platform_get_builtin_key                   80   0.10%  
+│                   │       │       ├── kmu.c                                                    2628   3.39%  - 
+│                   │       │       │   ├── can_sign.isra.0                                        12   0.02%  
+│                   │       │       │   ├── clean_up_unfinished_provisioning                       70   0.09%  
+│                   │       │       │   ├── convert_from_psa_attributes                           612   0.79%  
+│                   │       │       │   ├── cracen_kmu_clean_key                                   20   0.03%  
+│                   │       │       │   ├── cracen_kmu_destroy_key                                 64   0.08%  
+│                   │       │       │   ├── cracen_kmu_get_builtin_key                            668   0.86%  
+│                   │       │       │   ├── cracen_kmu_get_key_slot                                60   0.08%  
+│                   │       │       │   ├── cracen_kmu_prepare_key                                244   0.31%  
+│                   │       │       │   ├── cracen_kmu_provision                                  528   0.68%  
+│                   │       │       │   ├── get_encryption_key                                    144   0.19%  
+│                   │       │       │   ├── metadata_usage_flags_mapping                           28   0.04%  
+│                   │       │       │   ├── push_kmu_key_to_ram                                    76   0.10%  
+│                   │       │       │   ├── read_primary_slot_metadata                             54   0.07%  
+│                   │       │       │   └── set_provisioning_in_progress                           48   0.06%  
+│                   │       │       ├── lib_kmu.c                                                 344   0.44%  - 
+│                   │       │       │   ├── lib_kmu_clear_all_events                               36   0.05%  
+│                   │       │       │   ├── lib_kmu_is_slot_empty                                  20   0.03%  
+│                   │       │       │   ├── lib_kmu_provision_slot                                100   0.13%  
+│                   │       │       │   ├── lib_kmu_push_slot                                      28   0.04%  
+│                   │       │       │   ├── lib_kmu_read_metadata                                  48   0.06%  
+│                   │       │       │   ├── lib_kmu_revoke_slot                                    28   0.04%  
+│                   │       │       │   └── trigger_task_and_wait_for_event_or_error               84   0.11%  
+│                   │       │       ├── mac.c                                                    1430   1.84%  - 
+│                   │       │       │   ├── cracen_cmac_finish                                     94   0.12%  
+│                   │       │       │   ├── cracen_cmac_update                                    218   0.28%  
+│                   │       │       │   ├── cracen_hmac_finish                                     94   0.12%  
+│                   │       │       │   ├── cracen_mac_abort                                       14   0.02%  
+│                   │       │       │   ├── cracen_mac_compute                                     98   0.13%  
+│                   │       │       │   ├── cracen_mac_setup                                      380   0.49%  
+│                   │       │       │   ├── cracen_mac_sign_finish                                144   0.19%  
+│                   │       │       │   ├── cracen_mac_sign_setup                                   4   0.01%  
+│                   │       │       │   ├── cracen_mac_update                                     248   0.32%  
+│                   │       │       │   └── cracen_mac_verify_finish                              136   0.18%  
+│                   │       │       ├── mem_helpers.c                                              86   0.11%  - 
+│                   │       │       │   ├── constant_memcmp                                        40   0.05%  
+│                   │       │       │   ├── safe_memset                                            22   0.03%  
+│                   │       │       │   └── safe_memzero                                           24   0.03%  
+│                   │       │       ├── microcode_binary.h                                       4892   6.31%  - 
+│                   │       │       │   └── ba414ep_ucode                                        4892   6.31%  
+│                   │       │       └── prng_pool.c                                                76   0.10%  - 
+│                   │       │           └── cracen_prng_value_from_pool                            76   0.10%  
+│                   │       ├── sicrypto                                                          948   1.22%  - 
+│                   │       │   └── src                                                           948   1.22%  - 
+│                   │       │       ├── hash.c                                                    290   0.37%  - 
+│                   │       │       │   ├── hash_consume                                           48   0.06%  
+│                   │       │       │   ├── hash_partial_run                                       20   0.03%  
+│                   │       │       │   ├── hash_produce                                           52   0.07%  
+│                   │       │       │   ├── hash_status                                            44   0.06%  
+│                   │       │       │   ├── hash_wait                                              30   0.04%  
+│                   │       │       │   └── si_hash_create                                         96   0.12%  
+│                   │       │       ├── hmac.c                                                    438   0.57%  - 
+│                   │       │       │   ├── finish_hmac_computation                                90   0.12%  
+│                   │       │       │   ├── hmac_produce                                           96   0.12%  
+│                   │       │       │   ├── si_mac_create_hmac                                    172   0.22%  
+│                   │       │       │   ├── start_hmac_computation                                 12   0.02%  
+│                   │       │       │   └── start_hmac_computation.part.0                          68   0.09%  
+│                   │       │       ├── sicrypto.c                                                142   0.18%  - 
+│                   │       │       │   ├── si_task_consume                                        26   0.03%  
+│                   │       │       │   ├── si_task_init                                           12   0.02%  
+│                   │       │       │   ├── si_task_partial_run                                    22   0.03%  
+│                   │       │       │   ├── si_task_produce                                        30   0.04%  
+│                   │       │       │   └── si_task_wait                                           52   0.07%  
+│                   │       │       ├── util.c                                                     46   0.06%  - 
+│                   │       │       │   ├── si_be_add                                              20   0.03%  
+│                   │       │       │   └── si_xorbytes                                            26   0.03%  
+│                   │       │       └── waitqueue.h                                                32   0.04%  - 
+│                   │       │           └── si_wq_wake_next                                        32   0.04%  
+│                   │       ├── silexpk                                                           532   0.69%  - 
+│                   │       │   └── target                                                        532   0.69%  - 
+│                   │       │       ├── baremetal_ba414e_with_ik                                  158   0.20%  - 
+│                   │       │       │   └── pk_baremetal.c                                        158   0.20%  - 
+│                   │       │       │       ├── sx_clear_interrupt                                 26   0.03%  
+│                   │       │       │       ├── sx_get_current_req                                  8   0.01%  
+│                   │       │       │       ├── sx_pk_fetch_capabilities                           36   0.05%  
+│                   │       │       │       ├── sx_pk_get_caps                                      8   0.01%  
+│                   │       │       │       ├── sx_pk_get_regs                                      8   0.01%  
+│                   │       │       │       ├── sx_pk_init                                         60   0.08%  
+│                   │       │       │       ├── sx_pk_rdreg                                         6   0.01%  
+│                   │       │       │       └── sx_pk_wrreg                                         6   0.01%  
+│                   │       │       └── hw                                                        374   0.48%  - 
+│                   │       │           ├── ba414                                                  76   0.10%  - 
+│                   │       │           │   └── ba414_status.c                                     76   0.10%  - 
+│                   │       │           │       └── convert_ba414_capabilities                     76   0.10%  
+│                   │       │           └── ik                                                    298   0.38%  - 
+│                   │       │               └── ikhardware.c                                      298   0.38%  - 
+│                   │       │                   ├── sx_pk_ik_derive_keys                          252   0.33%  
+│                   │       │                   ├── sx_pk_is_ik_cmd                                10   0.01%  
+│                   │       │                   └── sx_pk_read_ik_capabilities                     36   0.05%  
+│                   │       └── sxsymcrypt                                                       5724   7.38%  - 
+│                   │           └── src                                                          5724   7.38%  - 
+│                   │               ├── aead.c                                                   1472   1.90%  - 
+│                   │               │   ├── ba411aeadtags                                          28   0.04%  
+│                   │               │   ├── ba411gcmcfg                                            40   0.05%  
+│                   │               │   ├── lenAlenC_aesgcm_ba411                                  42   0.05%  
+│                   │               │   ├── sx_aead_create_aesgcm                                 188   0.24%  
+│                   │               │   ├── sx_aead_create_aesgcm_dec                              22   0.03%  
+│                   │               │   ├── sx_aead_create_aesgcm_enc                               4   0.01%  
+│                   │               │   ├── sx_aead_crypt                                         128   0.17%  
+│                   │               │   ├── sx_aead_discard_aad                                    34   0.04%  
+│                   │               │   ├── sx_aead_feed_aad                                      100   0.13%  
+│                   │               │   ├── sx_aead_free                                           26   0.03%  
+│                   │               │   ├── sx_aead_hw_reserve                                     64   0.08%  
+│                   │               │   ├── sx_aead_produce_tag                                   192   0.25%  
+│                   │               │   ├── sx_aead_resume_state                                  134   0.17%  
+│                   │               │   ├── sx_aead_save_state                                    110   0.14%  
+│                   │               │   ├── sx_aead_status                                         88   0.11%  
+│                   │               │   ├── sx_aead_verify_tag                                    256   0.33%  
+│                   │               │   └── sx_aead_wait                                           16   0.02%  
+│                   │               ├── blkcipher.c                                              1034   1.33%  - 
+│                   │               │   ├── ba411ecbcfg                                            12   0.02%  
+│                   │               │   ├── ba411tags                                              20   0.03%  
+│                   │               │   ├── sx_blkcipher_create_aes_ba411                         204   0.26%  
+│                   │               │   ├── sx_blkcipher_create_aesecb_dec                         24   0.03%  
+│                   │               │   ├── sx_blkcipher_create_aesecb_enc                         24   0.03%  
+│                   │               │   ├── sx_blkcipher_crypt                                    112   0.14%  
+│                   │               │   ├── sx_blkcipher_ecb_simple                               164   0.21%  
+│                   │               │   ├── sx_blkcipher_free                                      24   0.03%  
+│                   │               │   ├── sx_blkcipher_hw_reserve                                58   0.07%  
+│                   │               │   ├── sx_blkcipher_resume_state                             152   0.20%  
+│                   │               │   ├── sx_blkcipher_run                                       84   0.11%  
+│                   │               │   ├── sx_blkcipher_save_state                               104   0.13%  
+│                   │               │   ├── sx_blkcipher_status                                    36   0.05%  
+│                   │               │   └── sx_blkcipher_wait                                      16   0.02%  
+│                   │               ├── chachapoly.c                                              304   0.39%  - 
+│                   │               │   ├── ba417aeadtags                                          28   0.04%  
+│                   │               │   ├── ba417chachapolycfg                                     40   0.05%  
+│                   │               │   ├── lenAlenC_chachapoly                                    36   0.05%  
+│                   │               │   ├── sx_aead_create_chacha20poly1305                       152   0.20%  
+│                   │               │   ├── sx_aead_create_chacha20poly1305_dec                    16   0.02%  
+│                   │               │   ├── sx_aead_create_chacha20poly1305_enc                    16   0.02%  
+│                   │               │   └── zeros                                                  16   0.02%  
+│                   │               ├── cmac.c                                                    196   0.25%  - 
+│                   │               │   ├── ba411cfg                                               28   0.04%  
+│                   │               │   ├── ba411tags                                              16   0.02%  
+│                   │               │   └── sx_mac_create_aescmac                                 152   0.20%  
+│                   │               ├── cmdma.c                                                   334   0.43%  - 
+│                   │               │   ├── sx_cmdma_check                                         78   0.10%  
+│                   │               │   ├── sx_cmdma_newcmd                                        32   0.04%  
+│                   │               │   ├── sx_cmdma_reset                                         66   0.09%  
+│                   │               │   └── sx_cmdma_start                                        158   0.20%  
+│                   │               ├── cmmask.c                                                   64   0.08%  - 
+│                   │               │   └── sx_cm_load_mask                                        64   0.08%  
+│                   │               ├── hash.c                                                    794   1.02%  - 
+│                   │               │   ├── ba413tags                                              16   0.02%  
+│                   │               │   ├── sx_ba413_digest                                       256   0.33%  
+│                   │               │   ├── sx_hash_create                                          8   0.01%  
+│                   │               │   ├── sx_hash_create_ba413                                   88   0.11%  
+│                   │               │   ├── sx_hash_digest                                         58   0.07%  
+│                   │               │   ├── sx_hash_feed                                           88   0.11%  
+│                   │               │   ├── sx_hash_free                                            6   0.01%  
+│                   │               │   ├── sx_hash_get_alg_blocksz                                 4   0.01%  
+│                   │               │   ├── sx_hash_get_alg_digestsz                                4   0.01%  
+│                   │               │   ├── sx_hash_get_digestsz                                    6   0.01%  
+│                   │               │   ├── sx_hash_resume_state                                   72   0.09%  
+│                   │               │   ├── sx_hash_save_state                                    136   0.18%  
+│                   │               │   ├── sx_hash_status                                         36   0.05%  
+│                   │               │   └── sx_hash_wait                                           16   0.02%  
+│                   │               ├── mac.c                                                     704   0.91%  - 
+│                   │               │   ├── sx_mac_feed                                            84   0.11%  
+│                   │               │   ├── sx_mac_free                                            26   0.03%  
+│                   │               │   ├── sx_mac_generate                                       150   0.19%  
+│                   │               │   ├── sx_mac_hw_reserve                                      64   0.08%  
+│                   │               │   ├── sx_mac_resume_state                                   154   0.20%  
+│                   │               │   ├── sx_mac_run                                             46   0.06%  
+│                   │               │   ├── sx_mac_save_state                                     120   0.15%  
+│                   │               │   ├── sx_mac_status                                          34   0.04%  
+│                   │               │   └── sx_mac_wait                                            26   0.03%  
+│                   │               ├── platform                                                  338   0.44%  - 
+│                   │               │   └── baremetal                                             338   0.44%  - 
+│                   │               │       ├── cmdma_hw.c                                        132   0.17%  - 
+│                   │               │       │   ├── sx_cmdma_release_hw                            48   0.06%  
+│                   │               │       │   └── sx_hw_reserve                                  84   0.11%  
+│                   │               │       └── interrupts.c                                      206   0.27%  - 
+│                   │               │           ├── CRACEN_IRQHandler                               6   0.01%  
+│                   │               │           ├── cracen_interrupts_init                         32   0.04%  
+│                   │               │           ├── cracen_irq_event_for_cryptomaster               4   0.01%  
+│                   │               │           ├── cracen_irq_event_for_pke                        4   0.01%  
+│                   │               │           ├── cracen_isr_handler                            124   0.16%  
+│                   │               │           └── cracen_wait_for_cm_interrupt                   36   0.05%  
+│                   │               └── trng.c                                                    484   0.62%  - 
+│                   │                   ├── sx_trng_close                                          20   0.03%  
+│                   │                   ├── sx_trng_flush                                          48   0.06%  
+│                   │                   ├── sx_trng_get                                           212   0.27%  
+│                   │                   ├── sx_trng_open                                          164   0.21%  
+│                   │                   └── sx_trng_restart                                        40   0.05%  
+│                   ├── psa_crypto_driver_wrappers.c                                             3070   3.96%  - 
+│                   │   ├── __Vectors                                                            1144   1.48%  
+│                   │   ├── psa_driver_wrapper_aead_abort                                          16   0.02%  
+│                   │   ├── psa_driver_wrapper_aead_decrypt                                       104   0.13%  
+│                   │   ├── psa_driver_wrapper_aead_decrypt_setup                                  44   0.06%  
+│                   │   ├── psa_driver_wrapper_aead_encrypt                                        84   0.11%  
+│                   │   ├── psa_driver_wrapper_aead_encrypt_setup                                  44   0.06%  
+│                   │   ├── psa_driver_wrapper_aead_finish                                         24   0.03%  
+│                   │   ├── psa_driver_wrapper_aead_set_lengths                                    18   0.02%  
+│                   │   ├── psa_driver_wrapper_aead_set_nonce                                      18   0.02%  
+│                   │   ├── psa_driver_wrapper_aead_update                                         24   0.03%  
+│                   │   ├── psa_driver_wrapper_aead_update_ad                                      18   0.02%  
+│                   │   ├── psa_driver_wrapper_aead_verify                                         24   0.03%  
+│                   │   ├── psa_driver_wrapper_cipher_abort                                        38   0.05%  
+│                   │   ├── psa_driver_wrapper_cipher_decrypt                                      60   0.08%  
+│                   │   ├── psa_driver_wrapper_cipher_decrypt_setup                                48   0.06%  
+│                   │   ├── psa_driver_wrapper_cipher_encrypt                                      30   0.04%  
+│                   │   ├── psa_driver_wrapper_cipher_encrypt_setup                                48   0.06%  
+│                   │   ├── psa_driver_wrapper_cipher_finish                                       24   0.03%  
+│                   │   ├── psa_driver_wrapper_cipher_set_iv                                       18   0.02%  
+│                   │   ├── psa_driver_wrapper_cipher_update                                       24   0.03%  
+│                   │   ├── psa_driver_wrapper_copy_key                                            32   0.04%  
+│                   │   ├── psa_driver_wrapper_destroy_builtin_key                                 24   0.03%  
+│                   │   ├── psa_driver_wrapper_export_key                                          52   0.07%  
+│                   │   ├── psa_driver_wrapper_export_public_key                                  100   0.13%  
+│                   │   ├── psa_driver_wrapper_free                                                 2   0.00%  
+│                   │   ├── psa_driver_wrapper_free_random                                          6   0.01%  
+│                   │   ├── psa_driver_wrapper_generate_key                                        80   0.10%  
+│                   │   ├── psa_driver_wrapper_get_builtin_key                                     56   0.07%  
+│                   │   ├── psa_driver_wrapper_get_key_buffer_size                                 48   0.06%  
+│                   │   ├── psa_driver_wrapper_get_key_buffer_size_from_key_data                   48   0.06%  
+│                   │   ├── psa_driver_wrapper_get_random                                           6   0.01%  
+│                   │   ├── psa_driver_wrapper_hash_abort                                          22   0.03%  
+│                   │   ├── psa_driver_wrapper_hash_clone                                          36   0.05%  
+│                   │   ├── psa_driver_wrapper_hash_compute                                        28   0.04%  
+│                   │   ├── psa_driver_wrapper_hash_finish                                         24   0.03%  
+│                   │   ├── psa_driver_wrapper_hash_setup                                          36   0.05%  
+│                   │   ├── psa_driver_wrapper_hash_update                                         18   0.02%  
+│                   │   ├── psa_driver_wrapper_import_key                                         144   0.19%  
+│                   │   ├── psa_driver_wrapper_init                                                 4   0.01%  
+│                   │   ├── psa_driver_wrapper_init_random                                          6   0.01%  
+│                   │   ├── psa_driver_wrapper_key_derivation_abort                                16   0.02%  
+│                   │   ├── psa_driver_wrapper_key_derivation_input_bytes                          24   0.03%  
+│                   │   ├── psa_driver_wrapper_key_derivation_input_integer                        24   0.03%  
+│                   │   ├── psa_driver_wrapper_key_derivation_input_key                            24   0.03%  
+│                   │   ├── psa_driver_wrapper_key_derivation_output_bytes                         18   0.02%  
+│                   │   ├── psa_driver_wrapper_key_derivation_set_capacity                         18   0.02%  
+│                   │   ├── psa_driver_wrapper_key_derivation_setup                                18   0.02%  
+│                   │   ├── psa_driver_wrapper_mac_abort                                           16   0.02%  
+│                   │   ├── psa_driver_wrapper_mac_compute                                         84   0.11%  
+│                   │   ├── psa_driver_wrapper_mac_sign_finish                                     24   0.03%  
+│                   │   ├── psa_driver_wrapper_mac_sign_setup                                      72   0.09%  
+│                   │   ├── psa_driver_wrapper_mac_update                                          18   0.02%  
+│                   │   ├── psa_driver_wrapper_mac_verify_finish                                   18   0.02%  
+│                   │   └── psa_driver_wrapper_mac_verify_setup                                    72   0.09%  
+│                   └── utils                                                                      50   0.06%  - 
+│                       ├── nrf_security_events.c                                                  46   0.06%  - 
+│                       │   ├── nrf_security_event_clear                                           10   0.01%  
+│                       │   ├── nrf_security_event_init                                             6   0.01%  
+│                       │   ├── nrf_security_event_set                                             14   0.02%  
+│                       │   └── nrf_security_event_wait                                            16   0.02%  
+│                       └── nrf_security_mutexes.c                                                  4   0.01%  - 
+│                           └── nrf_security_mutex_lock                                             4   0.01%  
+└── ZEPHYR_BASE                                                                                   152   0.20%  - 
+    └── soc                                                                                       152   0.20%  - 
+        └── nordic                                                                                152   0.20%  - 
+            └── nrf54l                                                                            152   0.20%  - 
+                └── soc.c                                                                         152   0.20%  - 
+                    └── nordicsemi_nrf54l_init                                                    152   0.20%  
+==========================================================================================================================================
+                                                                                                77519
