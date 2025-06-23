@@ -135,7 +135,11 @@ static int configure_power_pin_interrupt(gpio_callback_handler_t handler, gpio_f
 	 * When entering idle for some reason first disabling the previously edge-level
 	 * configured interrupt is also needed to keep the power consumption down.
 	 */
-	gpio_pin_interrupt_configure(gpio_dev, pin, GPIO_INT_DISABLE);
+	err = gpio_pin_interrupt_configure(gpio_dev, pin, GPIO_INT_DISABLE);
+	if (err) {
+		LOG_ERR("Failed to configure %s (0x%x) on power pin. (%d)",
+			"interrupt", GPIO_INT_DISABLE, err);
+	}
 
 	err = gpio_pin_interrupt_configure(gpio_dev, pin, flags);
 	if (err) {
@@ -153,7 +157,7 @@ static int configure_power_pin_interrupt(gpio_callback_handler_t handler, gpio_f
 	}
 
 	LOG_DBG("Configured interrupt (0x%x) on power pin (%u) with handler (%p).",
-		flags, pin, handler);
+		flags, pin, (void *)handler);
 	return 0;
 }
 
@@ -290,7 +294,7 @@ static void power_pin_callback_wakeup(const struct device *dev,
 	gpio_remove_callback(dev, gpio_callback);
 
 	/* Enable the poweroff interrupt only when the pin will be back to a nonactive state. */
-	configure_power_pin_interrupt(power_pin_callback_enable_poweroff, GPIO_INT_EDGE_RISING);
+	configure_power_pin_interrupt(power_pin_callback_enable_poweroff, GPIO_INT_EDGE_FALLING);
 
 	k_work_submit(&work);
 }
