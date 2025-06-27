@@ -626,14 +626,14 @@ static int handle_at_udp_client(enum at_parser_cmd_type cmd_type, struct at_pars
 			proxy.sec_tag = INVALID_SEC_TAG;
 			if (param_count > 4) { /* optional param */
 				err = at_parser_num_get(parser, 4, &proxy.sec_tag);
-				if ((err != 0 && err != -EOPNOTSUPP)) {
+				if ((err != 0 && err != -ENODATA)) {
 					return -EINVAL;
 				}
 			}
 			proxy.dtls_cid = TLS_DTLS_CID_DISABLED;
 			if (param_count > 5) { /* optional param */
 				err = at_parser_num_get(parser, 5, &proxy.dtls_cid);
-				if ((err != 0 && err != -EOPNOTSUPP)
+				if ((err != 0 && err != -ENODATA)
 				|| !(proxy.dtls_cid == TLS_DTLS_CID_DISABLED
 				|| proxy.dtls_cid == TLS_DTLS_CID_SUPPORTED
 				|| proxy.dtls_cid == TLS_DTLS_CID_ENABLED)) {
@@ -643,7 +643,7 @@ static int handle_at_udp_client(enum at_parser_cmd_type cmd_type, struct at_pars
 			proxy.peer_verify = TLS_PEER_VERIFY_REQUIRED;
 			if (param_count > 6) { /* optional param */
 				err = at_parser_num_get(parser, 6, &proxy.peer_verify);
-				if ((err != 0 && err != -EOPNOTSUPP) ||
+				if ((err != 0 && err != -ENODATA) ||
 				    (proxy.peer_verify != TLS_PEER_VERIFY_NONE &&
 				     proxy.peer_verify != TLS_PEER_VERIFY_OPTIONAL &&
 				     proxy.peer_verify != TLS_PEER_VERIFY_REQUIRED)) {
@@ -655,7 +655,7 @@ static int handle_at_udp_client(enum at_parser_cmd_type cmd_type, struct at_pars
 				uint16_t hostname_verify = 0;
 
 				err = at_parser_num_get(parser, 7, &hostname_verify);
-				if ((err != 0 && err != -EOPNOTSUPP) ||
+				if ((err != 0 && err != -ENODATA) ||
 				    (hostname_verify != 0 && hostname_verify != 1)) {
 					return -EINVAL;
 				}
